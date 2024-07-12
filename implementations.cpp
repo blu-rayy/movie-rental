@@ -52,7 +52,8 @@ Customer::Customer()
 
 void Customer::add_customer(string customer_name, string customer_address)
 {
-	cout << "Implementations Test: Customer Class" << endl;
+	cout << "Implementations Test: Customer Class: ";
+    cout << customer_name << " " << customer_address << endl;
 }
 
 void Customer::display_customer_details(int customer_id)
@@ -73,7 +74,7 @@ Customer_Rent::Customer_Rent()
 
 void Customer_Rent::rent_video(int customer_id) 
 {
-    cout << "Implementations Test: Customer_Rent Class" << customer_id << endl;
+    cout << "Implementations Test: Customer_Rent Class: " << customer_id << endl;
 
 }
 
