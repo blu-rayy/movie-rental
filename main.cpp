@@ -35,6 +35,5 @@ int main() {
 
 //when creating new functions, always include:
 // header();
-// system("cls");
 // rest of the code
 

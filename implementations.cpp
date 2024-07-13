@@ -10,6 +10,12 @@
 #include "header.h"
 using namespace std;
 
+void header() {
+	cout << "Welcome to the Video Rental System" << endl;
+	cout << "==================================" << endl;
+	system("cls");
+}
+
 Video::Video()
 {
 	video_id = "";
@@ -99,6 +105,8 @@ Customer::Customer(const string& name, const string& address) //also a parameter
 
 void Customer::add_customer(queue<Customer>& customerQueue, const string& name, const string& address)
 {
+	//header();
+
 	Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
 	newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
 
@@ -141,6 +149,8 @@ Customer_Rent::Customer_Rent()
 }
 
 void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id) {
+	//header();
+
 	string current_time = generate_time();
 
 	// Open movies.txt to find the requested movie_id
