@@ -1,7 +1,8 @@
 #include <iostream>
 #include <fstream>
-#include <list>
 #include <string>
+#include <list>
+#include <stack>
 #include "header.h"
 using namespace std;
 
@@ -89,11 +90,35 @@ Customer::Customer()
 	customer_address = "";
 }
 
-void Customer::add_customer(string customer_name, string customer_address)
+Customer::Customer(const string& name, const string& address) //also a parameterized constructor
+	: customer_name(name), customer_address(address) {}
+
+void Customer::add_customer(stack<Customer>& customerStack, const string& name, const string& address)
 {
-	cout << "Implementations Test: Customer Class: ";
-    cout << customer_name << " " << customer_address << endl;
+	Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
+	newCustomer.customer_id = customerStack.size() + 1; // Assign a unique ID to the customer
+
+	customerStack.push(newCustomer);
+
+	ofstream outCustomer("customers.txt");
+	if (!outCustomer) {
+		cout << "Error opening file: customers.txt" << endl;
+		return;
+	}
+
+	stack<Customer> tempStack = customerStack; // Write all customers from the stack to the file
+	while (!tempStack.empty()) {
+		Customer customer = tempStack.top();
+		outCustomer << customer.customer_id << ", "
+			<< customer.customer_name << ", "
+			<< customer.customer_address << endl;
+		tempStack.pop();
+	}
+	outCustomer.close();
+
+	cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
 }
+
 
 void Customer::display_customer_details(int customer_id)
 {

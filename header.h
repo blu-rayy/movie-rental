@@ -29,7 +29,8 @@ private:
     string customer_address;
 public:
     Customer();
-    void add_customer(string customer_name, string customer_address);
+    Customer(const string& name, const string& address);
+    void add_customer(stack<Customer>& customerStack, const string& name, const string& address);
     void display_customer_details(int customer_id);
     void display_all();
 };
