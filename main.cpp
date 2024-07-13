@@ -66,15 +66,14 @@ int main() {
 					cout << "\nInvalid choice. Enter a number between 1-5" << endl;
 					continue;
 				}
+				cout << "Enter Production Company of Movie: ";
+				getline(cin, user_production);
+				cout << "How many copies of the movie do you have?: ";
+				cin >> user_quantity;
+
+				v.insert_video(movies, Video(user_title, user_genre, user_production, user_quantity));
 				break;
 			} while (true);
-
-			cout << "Enter Production Company of Movie: ";
-			getline(cin, user_production);
-			cout << "How many copies of the movie do you have?: ";
-			cin >> user_quantity;
-
-			v.insert_video(movies, Video(user_title, user_genre, user_production, user_quantity));
 			break;
 		case 2:
 			cr.rent_video(rent, 3, "3S");
