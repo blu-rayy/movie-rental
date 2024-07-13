@@ -157,82 +157,93 @@ Customer_Rent::Customer_Rent()
 }
 
 void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id) {
-	//header();
+    string current_time = generate_time();
 
-	string current_time = generate_time();
+    // Open movies.txt to find the requested movie_id
+    ifstream getVideo_ID("movies.txt");
+    if (getVideo_ID.fail()) {
+        cout << "Error opening file: movies.txt" << endl;
+        return;
+    }
 
-	// Open movies.txt to find the requested movie_id
-	ifstream getVideo_ID("movies.txt");
-	if (getVideo_ID.fail()) {
-		cout << "Error opening file: movies.txt" << endl;
-		return;
-	}
+    string videoID_result, movie_info;
+    while (getline(getVideo_ID, movie_info)) {
+        if (movie_info.find(movie_id + ",") == 0) {
+            videoID_result = movie_info;
+            break;
+        }
+    }
+    getVideo_ID.close();
 
-	string videoID_result, movie_info;
-	while (getline(getVideo_ID, movie_info)) {
-		// Check if movie_info starts with the specified movie_id followed by a comma
-		if (movie_info.find(movie_id + ",") == 0) {
-			videoID_result = movie_info; // Copy the whole line if found
-			break;
-		}
-	}
-	getVideo_ID.close();
+    if (videoID_result.empty()) {
+        cout << "Movie ID not found" << endl;
+        return;
+    }
 
-	if (videoID_result.empty()) {
-		cout << "Movie ID not found" << endl;
-		return;
-	}
+    // Open customers.txt to find the requested customer_id
+    ifstream getCustomer_ID("customers.txt");
+    if (getCustomer_ID.fail()) {
+        cout << "Error opening file: customers.txt" << endl;
+        return;
+    }
 
-	// Open customers.txt to find the requested customer_id
-	ifstream getCustomer_ID("customers.txt");
-	if (getCustomer_ID.fail()) {
-		cout << "Error opening file: customers.txt" << endl;
-		return;
-	}
+    string customerID_result, customer_info;
+    while (getline(getCustomer_ID, customer_info)) {
+        if (customer_info.find(to_string(customer_id)) != string::npos) {
+            customerID_result = customer_info;
+            break;
+        }
+    }
+    getCustomer_ID.close();
 
-	string customerID_result, customer_info;
-	while (getline(getCustomer_ID, customer_info)) {
-		// Check if customer_info contains the specified customer_id
-		if (customer_info.find(to_string(customer_id)) != string::npos) {
-			customerID_result = customer_info; // Copy the whole line if found
-			break;
-		}
-	}
-	getCustomer_ID.close();
+    if (customerID_result.empty()) {
+        cout << "Customer ID not found" << endl;
+        return;
+    }
 
-	if (customerID_result.empty()) {
-		cout << "Customer ID not found" << endl;
-		return;
-	}
+    // Create rental record
+    string rental_record = videoID_result + " & " + customerID_result + " @ " + current_time;
 
-	// Create rental record
-	string rental_record = videoID_result + " & " + customerID_result + " @ " + current_time;
+    // Check if the rental record already exists in customer_rent_stack
+    stack<string> temp_stack = customer_rent_stack;
+    while (!temp_stack.empty()) {
+        if (temp_stack.top() == rental_record) {
+            cout << "Duplicate rental record found" << endl;
+            return;
+        }
+        temp_stack.pop();
+    }
 
-	// Check if the rental record already exists in customer_rent_stack
-	stack<string> temp_stack = customer_rent_stack;
-	while (!temp_stack.empty()) {
-		if (temp_stack.top() == rental_record) {
-			cout << "Duplicate rental record found" << endl;
-			return;
-		}
-		temp_stack.pop();
-	}
+    customer_rent_stack.push(rental_record);
 
-	customer_rent_stack.push(rental_record);
-	
-	ofstream outCustomerRent("customer_rent.txt", ios::app); // Write rental record to customer_rent.txt
-	if (!outCustomerRent) {
-		cout << "Error opening file: customer_rent.txt" << endl;
-		return;
-	}
+    // Read the current contents of customer_rent.txt
+    ifstream inCustomerRent("customer_rent.txt");
+    if (!inCustomerRent) {
+        cout << "Error opening file: customer_rent.txt" << endl;
+        return;
+    }
+    vector<string> records;
+    string line;
+    while (getline(inCustomerRent, line)) {
+        records.push_back(line);
+    }
+    inCustomerRent.close();
 
-	outCustomerRent << rental_record << endl;
+    // Write the new rental record at the top of the file
+    ofstream outCustomerRent("customer_rent.txt");
+    if (!outCustomerRent) {
+        cout << "Error opening file: customer_rent.txt" << endl;
+        return;
+    }
+    outCustomerRent << rental_record << endl;
+    for (const auto& rec : records) {
+        outCustomerRent << rec << endl;
+    }
+    outCustomerRent.close();
 
-	outCustomerRent.close();
+    decrementMovieQuantity(movie_id);
 
-	decrementMovieQuantity(movie_id); // Decrement the quantity of the rented movie
-
-	cout << rental_record << " has been added to the database" << endl;
+    cout << rental_record << " has been added to the database" << endl;
 }
 
 void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
