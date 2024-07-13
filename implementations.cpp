@@ -189,7 +189,7 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
 
     string customerID_result, customer_info;
     while (getline(getCustomer_ID, customer_info)) {
-        if (customer_info.find(customer_id + ",") == 0) {
+        if (customer_info.find(to_string(customer_id) + ",") == 0) {
             customerID_result = customer_info;
             break;
         }
