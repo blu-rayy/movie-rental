@@ -1,6 +1,8 @@
 #pragma once
 using namespace std;
 
+void header();
+
 class Video {
 private:
     string video_id;

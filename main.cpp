@@ -15,6 +15,7 @@ int main() {
     Customer c;
     Customer_Rent cr;
 
+    header();
     cout << "Hello World!" << endl;
 
     //insert input functions here; ensure same data type as the function
