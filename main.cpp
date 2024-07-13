@@ -7,16 +7,16 @@
 using namespace std;
 
 int main() {
-    list<Video> movies;
-    queue<Customer> customers; 
-    stack<string> rent; 
+	list<Video> movies;
+	queue<Customer> customers;
+	stack<string> rent;
 
-    Video v;
-    Customer c;
-    Customer_Rent cr;
+	Video v;
+	Customer c;
+	Customer_Rent cr;
 
-    header();
-    int choice, genre_choice, user_quantity, user_customer_id;
+	header();
+	int choice, genre_choice, user_quantity, user_customer_id;
 	string user_title, user_genre, user_production, user_video_id;
 	char another;
 
@@ -44,7 +44,7 @@ int main() {
 				cout << "YOU ARE NOW ADDING TO THE DATABASE FOR VIDEOS..." << endl << endl;
 
 				cout << "Enter the title of the movie: ";
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin.ignore();
 				getline(cin, user_title);
 				do {
 					cout << "\n[1] Action" << endl << "[2] Comedy" << endl << "[3] Horror" << endl << "[4] Romance" << endl << "[5] Sci-Fi" << endl;
@@ -53,11 +53,12 @@ int main() {
 
 					if (cin.fail()) {
 						cin.clear();
-						cin.ignore(numeric_limits<streamsize>::max(), '\n');
+						cin.ignore();
 						cout << "Invalid choice" << endl;
 						continue;
 					}
-					else cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					else cin.ignore();
+
 					switch (genre_choice) {
 					case 1: user_genre = "Action"; break;
 					case 2: user_genre = "Comedy"; break;
@@ -81,11 +82,11 @@ int main() {
 				cin >> another;
 				if (cin.fail()) {
 					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cin.ignore();
 					cout << "Invalid choice" << endl;
 					continue;
 				}
-				else cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				else cin.ignore();
 			} while (toupper(another) != 'N');
 			system("cls");
 			header();
@@ -97,18 +98,9 @@ int main() {
 				header();
 				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
 				if (cr.first_instance == true) {
-					do {
-						cout << "Enter Customer ID: ";
-						cin >> user_customer_id;
-						if (cin.fail()) {
-							cin.clear();
-							cin.ignore(numeric_limits<streamsize>::max(), '\n');
-							cout << "Invalid choice! Try Again" << endl << endl;
-							continue;
-						}
-						else cin.ignore(numeric_limits<streamsize>::max(), '\n');
-						//display customer details
-					} while (true);
+					cout << "Enter Customer ID: ";
+					cin >> user_customer_id;
+					//display customer details
 				}
 				cr.first_instance = false;
 				//display all videos
@@ -122,15 +114,14 @@ int main() {
 				cin >> another;
 				if (cin.fail()) {
 					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					cin.ignore();
 					cout << "Invalid choice" << endl;
 					continue;
 				}
-				else cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				else cin.ignore();
 
 			} while (toupper(another) != 'N');
-			system("cls");
-			header();
+
 			break;
 		case 3:
 			cr.return_video();
@@ -168,6 +159,6 @@ int main() {
 	// header();
 	// rest of the code
 
-    return 0;
+	return 0;
 
 }
