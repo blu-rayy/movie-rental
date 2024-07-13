@@ -77,6 +77,7 @@ int main() {
 			v.insert_video(movies, Video(user_title, user_genre, user_production, user_quantity));
 			break;
 		case 2:
+			cr.rent_video(rent, 2, "2H");
 			cr.rent_video(rent, 3, "3S");
 			break;
 		case 3:
