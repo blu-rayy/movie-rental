@@ -71,7 +71,9 @@ void Video::insert_video(list<Video>& movies, const Video& video) //takes in a l
 		outVideo.close();
 	}
 
-    cout << "\nThe Movie \"" << video.movie_title << "\" with Video ID " << video_id << " has been added to the database" << endl;
+    cout << "\nThe Movie \"" << video.movie_title << "\" with Video ID " << video_id << " has been added to the database!" << endl;
+	system("pause");
+	system("cls");
 }
 
 void Video::rent_video(int video_id)

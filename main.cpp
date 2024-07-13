@@ -16,7 +16,8 @@ int main() {
     Customer_Rent cr;
 
     header();
-    int choice;
+    int choice, genre_choice, user_quantity;
+	string user_title, user_genre, user_production;
 
 	do {
 		cout << "[1] New Video" << endl;
@@ -29,13 +30,51 @@ int main() {
 		cout << "[8] Show Customer Details" << endl;
 		cout << "[9] List of Videos Rented by a Customer" << endl;
 		cout << "[10] Exit" << endl;
-		cout << "What would you like to do?: ";
+		cout << "\nWhat would you like to do?: ";
 		cin >> choice;
 
 		switch (choice) {
 		case 1:
-			v.insert_video(movies, Video("Die Hard", "Action", "20th Century Fox", 5));
-			v.insert_video(movies, Video("The Matrix", "Horror", "Warner Bros", 3));
+			system("cls");
+			header();
+
+			cout << "YOU ARE NOW ADDING VIDEOS TO THE DATABASE..." << endl << endl;
+
+			cout << "Enter the title of the movie: ";
+			cin.ignore();
+			getline(cin, user_title);
+			do {
+				cout << "\n[1] Action" << endl << "[2] Comedy" << endl << "[3] Horror" << endl << "[4] Romance" << endl << "[5] Sci-Fi" << endl;
+				cout << "Select A Genre: ";
+				cin >> genre_choice;
+
+				if (cin.fail()) {
+					cin.clear();
+					cin.ignore();
+					cout << "Invalid choice" << endl;
+					continue;
+				}
+				else cin.ignore();
+				
+				switch (genre_choice) {
+				case 1: user_genre = "Action"; break;
+				case 2: user_genre = "Comedy"; break;
+				case 3: user_genre = "Horror"; break;
+				case 4: user_genre = "Romance";break;
+				case 5: user_genre = "Sci-Fi"; break;
+				default:
+					cout << "Invalid choice. Enter a number between 1-5" << endl;
+					continue;
+				}
+				break;
+			} while (true);
+
+			cout << "Enter Production Company of Movie: ";
+			getline(cin, user_production);
+			cout << "How many copies of the movie do you have?: ";
+			cin >> user_quantity;
+
+			v.insert_video(movies, Video(user_title, user_genre, user_production, user_quantity));
 			break;
 		case 2:
 			cr.rent_video(rent, 1, "1A");
