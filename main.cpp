@@ -2,13 +2,13 @@
 #include <fstream>
 #include <string>
 #include <list>
-#include <stack>
+#include <queue>
 #include "header.h"
 using namespace std;
 
 int main() {
     list<Video> movies; //linked list implementation
-    stack<Customer> customers; //stack implementation
+    queue<Customer> customers; //stack implementation
 
     Video v;
     Customer c;
@@ -21,9 +21,9 @@ int main() {
 
     //v.insert_video(movies, Video("Die Hard", "Action", "20th Century Fox", 5));
 
-    //c.add_customer(customers, "John Doe", "123 Main St");
-    //c.add_customer(customers, "Jane Smith", "456 Oak Ave");
-    //c.add_customer(customers, "Miles Morales", "Earth 317");
+    c.add_customer(customers, "John Doe", "123 Main St");
+    c.add_customer(customers, "Jane Smith", "456 Oak Ave");
+    c.add_customer(customers, "Miles Morales", "Earth 317");
 
 
     return 0;

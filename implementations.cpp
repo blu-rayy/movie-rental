@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 #include <list>
-#include <stack>
+#include <queue>
 #include "header.h"
 using namespace std;
 
@@ -93,12 +93,12 @@ Customer::Customer()
 Customer::Customer(const string& name, const string& address) //also a parameterized constructor
 	: customer_name(name), customer_address(address) {}
 
-void Customer::add_customer(stack<Customer>& customerStack, const string& name, const string& address)
+void Customer::add_customer(queue<Customer>& customerQueue, const string& name, const string& address)
 {
 	Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
-	newCustomer.customer_id = customerStack.size() + 1; // Assign a unique ID to the customer
+	newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
 
-	customerStack.push(newCustomer);
+	customerQueue.push(newCustomer);
 
 	ofstream outCustomer("customers.txt");
 	if (!outCustomer) {
@@ -106,14 +106,15 @@ void Customer::add_customer(stack<Customer>& customerStack, const string& name, 
 		return;
 	}
 
-	stack<Customer> tempStack = customerStack; // Write all customers from the stack to the file
-	while (!tempStack.empty()) {
-		Customer customer = tempStack.top();
+	queue<Customer> tempQueue = customerQueue; // Write all customers from the queue to the file
+	while (!tempQueue.empty()) {
+		Customer customer = tempQueue.front();
 		outCustomer << customer.customer_id << ", "
 			<< customer.customer_name << ", "
 			<< customer.customer_address << endl;
-		tempStack.pop();
+		tempQueue.pop();
 	}
+	
 	outCustomer.close();
 
 	cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
