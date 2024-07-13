@@ -11,9 +11,9 @@
 using namespace std;
 
 void header() {
+	system("cls");
 	cout << "Welcome to the Video Rental System" << endl;
 	cout << "==================================" << endl;
-	system("cls");
 }
 
 Video::Video()
