@@ -6,6 +6,7 @@
 #include <iomanip> 
 #include <list>
 #include <queue>
+#include <stack>
 #include "header.h"
 using namespace std;
 
@@ -139,38 +140,146 @@ Customer_Rent::Customer_Rent()
 	customer_id = 0;
 }
 
-void Customer_Rent::rent_video(int customer_id) 
-{
-    cout << "Implementations Test: Customer_Rent Class: " << customer_id << endl;
+void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id) {
+	string current_time = generate_time();
 
+	fstream getVideo_ID("movies.txt");
+	if (getVideo_ID.fail()) {
+		cout << "Error opening file: movies.txt" << endl;
+		return;
+	}
+
+	string videoID_result, movie_info; //find requested movie_id in movies.txt
+	while (getline(getVideo_ID, movie_info)) {
+		if (movie_info.find(movie_id) != string::npos) {
+			videoID_result = movie_info; //copies whole line if found
+			break;
+		}
+		else {
+			cout << "Video ID not found" << endl;
+			return;
+		}
+	}
+	getVideo_ID.close();
+
+	ifstream getCustomer_ID("customers.txt");
+	if (getCustomer_ID.fail()) {
+		cout << "Error opening file: customers.txt" << endl;
+		return;
+	}
+	string customerID_result, customer_info; //find requested customer_id in customers.txt
+	while (getline(getCustomer_ID, customer_info)) {
+		if (customer_info.find(to_string(customer_id)) != string::npos) {
+			customerID_result = customer_info; //copies whole line if found
+			break;
+		}
+		else {
+			cout << "Customer ID not found" << endl;
+			return;
+		}
+	}
+
+	string rental_record = videoID_result + " & " + customerID_result + " @ " + current_time;
+
+	customer_rent_stack.push(rental_record);
+
+	// Write rental record to customer_rent.txt
+	ofstream outCustomerRent("customer_rent.txt", ios::app);
+	if (!outCustomerRent) {
+		cout << "Error opening file: customer_rent.txt" << endl;
+		return;
+	}
+	outCustomerRent << rental_record << endl;
+	outCustomerRent.close();
+
+	decrementMovieQuantity(movie_id);
+
+	cout << rental_record << " has been added to the database" << endl;
 }
+
+void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
+	ifstream inFile("movies.txt");
+	if (inFile.fail()) {
+		cout << "Error opening file: movies.txt" << endl;
+		return;
+	}
+
+	ofstream outFile("temp.txt");
+	if (outFile.fail()) {
+		cout << "Error opening file: temp.txt" << endl;
+		return;
+	}
+
+	string movie_info, updated_movie_info;
+	bool movieFound = false;
+
+	while (getline(inFile, movie_info)) {
+		if (movie_info.find(movie_id) != string::npos) {
+			string quantity = movie_info.substr(movie_info.find_last_of(",") + 2);
+			int quantity_int = stoi(quantity);
+			quantity_int--;
+			updated_movie_info = movie_info.substr(0, movie_info.find_last_of(",") + 2) + to_string(quantity_int);
+			outFile << updated_movie_info << endl;
+			movieFound = true;
+		}
+		else {
+			outFile << movie_info << endl;
+		}
+	}
+
+	inFile.close();
+	outFile.close();
+
+	if (!movieFound) {
+		cout << "Video ID not found" << endl;
+		remove("temp.txt");
+		return;
+	}
+
+	if (remove("movies.txt") != 0) {
+		cout << "Error deleting original file" << endl;
+		return;
+	}
+
+	if (rename("temp.txt", "movies.txt") != 0) {
+		cout << "Error renaming temporary file" << endl;
+		return;
+	}
+
+	cout << "Quantity updated successfully." << endl;
+}
+
 
 void Customer_Rent::return_video()
 {
 	cout << "Implementations Test: Customer_Rent Class" << endl;
 }
 
-void Customer_Rent::display_all()
-{
+void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
+	/*cout << "\nCustomer Rent Records:" << endl;
+	stack<string> temp_stack; // Temporary stack to reverse the order for display
+
+	while (!customer_rent_stack.empty()) {
+		temp_stack.push(customer_rent_stack.top());
+		customer_rent_stack.pop();
+	}
+	while (!temp_stack.empty()) {
+		cout << temp_stack.top() << endl;
+		customer_rent_stack.push(temp_stack.top());
+		temp_stack.pop();
+	} */
 	cout << "Implementations Test: Customer_Rent Class" << endl;
 }
 
-void Customer_Rent::generate_time()
+string Customer_Rent::generate_time()
 {
 	auto now = chrono::system_clock::now();
-
-	// Convert to time_t (epoch time)
-	time_t now_time_t = chrono::system_clock::to_time_t(now);
-
-	// Convert to local time using localtime_s
-	tm local_tm;
+	time_t now_time_t = chrono::system_clock::to_time_t(now); // Convert to time_t (epoch time)
+	tm local_tm; // Convert to local time using localtime_s
 	localtime_s(&local_tm, &now_time_t);
-
-	// Format time as a string
 	char buffer[80];
-	strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &local_tm);
+	strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &local_tm); // Format time as a string
 
-	// Output formatted time
-	cout << "Current local time: " << buffer << endl;
+	return string(buffer);
 }
 
