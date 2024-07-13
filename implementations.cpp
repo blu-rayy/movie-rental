@@ -16,6 +16,12 @@ void header() {
 	cout << "==================================" << endl;
 }
 
+void goodbye() {
+	cout << "\nThank you for using the Video Rental System!" << endl;
+	cout << "\nDEVELOPERS:" << endl;
+	cout << "Kristian Bautista" << endl << "Patricia Damaso" << endl << "Wayne Garcia" << endl << "Angel Letada" << endl << "Marianne Santos" << endl;
+}
+
 Video::Video()
 {
 	video_id = "";

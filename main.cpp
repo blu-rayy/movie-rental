@@ -65,7 +65,7 @@ int main() {
 			cr.display_rent(rent);
 			break;
 		case 10:
-			cout << "Insert Credits";
+			goodbye();
 			return 0;
 		default:
 			cout << "Invalid choice" << endl;
