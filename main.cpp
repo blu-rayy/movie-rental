@@ -105,7 +105,7 @@ int main() {
 				cr.first_instance = false;
 				//display all videos
 				cout << "Enter Video ID to rent: ";
-				cin >> user_video_id;
+				cin.ignore();
 				getline(cin, user_video_id);
 				transform(user_video_id.begin(), user_video_id.end(), user_video_id.begin(), ::toupper);
 
