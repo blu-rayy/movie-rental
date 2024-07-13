@@ -63,7 +63,7 @@ int main() {
 				case 4: user_genre = "Romance";break;
 				case 5: user_genre = "Sci-Fi"; break;
 				default:
-					cout << "Invalid choice. Enter a number between 1-5" << endl;
+					cout << "\nInvalid choice. Enter a number between 1-5" << endl;
 					continue;
 				}
 				break;
@@ -77,8 +77,7 @@ int main() {
 			v.insert_video(movies, Video(user_title, user_genre, user_production, user_quantity));
 			break;
 		case 2:
-			cr.rent_video(rent, 1, "1A");
-			cr.rent_video(rent, 1, "2H");
+			cr.rent_video(rent, 3, "3S");
 			break;
 		case 3:
 			cr.return_video();
