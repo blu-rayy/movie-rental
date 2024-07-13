@@ -27,7 +27,7 @@ int main() {
     //c.add_customer(customers, "Miles Morales", "Earth 317");
 
     cr.rent_video(rent, 1, "1A");
-    cr.rent_video(rent, 2, "2H");
+    cr.rent_video(rent, 1, "2H");
 
     return 0;
 
