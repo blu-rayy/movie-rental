@@ -4,20 +4,23 @@ using namespace std;
 
 class Video {
 private:
-    int video_id;
+    string video_id;
     string movie_title;
     string genre;
     string production;
-    string quantity;
+    int quantity;
+
 public:
     Video();
-    void insert_video(string movie_title, string genre, string production, string quantity);
+    Video(string title, string genre, string production, int quantity);
+    void insert_video(list<Video>& movies, const Video& video);//nilabas ko from the class
     void rent_video(int video_id);
     void return_video(int video_id);
     void details_video(int video_id);
     void display_all();
     bool check_video_status(int video_id);
 };
+
 
 class Customer {
 private:
