@@ -189,7 +189,7 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
 
     string customerID_result, customer_info;
     while (getline(getCustomer_ID, customer_info)) {
-        if (customer_info.find(to_string(customer_id)) != string::npos) {
+        if (customer_info.find(customer_id + ",") == 0) {
             customerID_result = customer_info;
             break;
         }
@@ -298,25 +298,12 @@ void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
 	cout << "Quantity updated successfully." << endl;
 }
 
-
 void Customer_Rent::return_video()
 {
 	cout << "Implementations Test: Customer_Rent Class" << endl;
 }
 
 void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
-	/*cout << "\nCustomer Rent Records:" << endl;
-	stack<string> temp_stack; // Temporary stack to reverse the order for display
-
-	while (!customer_rent_stack.empty()) {
-		temp_stack.push(customer_rent_stack.top());
-		customer_rent_stack.pop();
-	}
-	while (!temp_stack.empty()) {
-		cout << temp_stack.top() << endl;
-		customer_rent_stack.push(temp_stack.top());
-		temp_stack.pop();
-	} */
 	cout << "Implementations Test: Customer_Rent Class" << endl;
 }
 
@@ -326,9 +313,9 @@ string Customer_Rent::generate_time()
 	time_t now_time_t = chrono::system_clock::to_time_t(now); // Convert to time_t (epoch time)
 	tm local_tm; // Convert to local time using localtime_s
 	localtime_s(&local_tm, &now_time_t);
-	char buffer[80];
-	strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &local_tm); // Format time as a string
+	char time[80];
+	strftime(time, sizeof(time), "%Y-%m-%d %H:%M:%S", &local_tm); // Format time as a string
 
-	return string(buffer);
+	return string(time);
 }
 
