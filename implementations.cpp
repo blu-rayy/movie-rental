@@ -73,8 +73,6 @@ void Video::insert_video(list<Video>& movies, const Video& video) //takes in a l
 
     cout << "\nThe Movie \"" << video.movie_title << "\" with Video ID " << video_id << " has been added to the database!" << endl;
 	system("pause");
-	system("cls");
-	header();
 }
 
 void Video::rent_video(int video_id)
@@ -178,6 +176,7 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
 
     if (videoID_result.empty()) {
         cout << "Movie ID not found" << endl;
+		first_instance = true;
         return;
     }
 
@@ -199,6 +198,7 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
 
     if (customerID_result.empty()) {
         cout << "Customer ID not found" << endl;
+		first_instance = true;
         return;
     }
 

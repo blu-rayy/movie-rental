@@ -47,4 +47,5 @@ public:
     void return_video();
     void display_rent(stack<string>& customer_rent_stack);
     string generate_time();
+    bool first_instance;
 };
