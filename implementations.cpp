@@ -36,7 +36,6 @@ Video::Video(string title, string genre, string production, int quantity) //para
 
 void Video::insert_video(list<Video>& movies, const Video& video) //takes in a list of movies and a video object to add to the list
 {
-
 	movies.push_back(video);
 		
     ofstream outVideo("movies.txt", ios::app);

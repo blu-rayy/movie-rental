@@ -1,3 +1,7 @@
+1A, Die Hard, Action, 20th Century Fox, 78 & 2, Jane Smith, 456 Oak Ave @ 2024-07-14 00:28:44
+2H, The Matrix, Horror, Warner Bros, 78 & 1, John Doe, 123 Main St @ 2024-07-14 00:16:54
+2H, The Matrix, Horror, Warner Bros, 79 & 1, John Doe, 123 Main St @ 2024-07-14 00:01:54
+1A, Die Hard, Action, 20th Century Fox, 79 & 1, John Doe, 123 Main St @ 2024-07-14 00:01:38
 3S, Interstellar, Sci-Fi, Paramount Pictures, 3 & 3, Miles Morales, Earth 317 @ 2024-07-13 21:39:33
 3S, Interstellar, Sci-Fi, Paramount Pictures, 4 & 1, John Doe, 123 Main St @ 2024-07-13 21:26:24
 2H, The Matrix, Horror, Warner Bros, 80 & 1, John Doe, 123 Main St @ 2024-07-13 21:01:02

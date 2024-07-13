@@ -97,7 +97,7 @@ int main() {
 				system("cls");
 				header();
 				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
-				if (cr.first_instance == true) {
+				if (cr.first_instance) {
 					cout << "Enter Customer ID: ";
 					cin >> user_customer_id;
 					//display customer details
