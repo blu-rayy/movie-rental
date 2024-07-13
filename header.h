@@ -42,4 +42,5 @@ public:
     void rent_video(int customer_id);
     void return_video();
     void display_all(); // Prints all rented videos by each customer
+    void generate_time();
 };

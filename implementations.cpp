@@ -1,6 +1,9 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <chrono>
+#include <ctime>
+#include <iomanip> 
 #include <list>
 #include <queue>
 #include "header.h"
@@ -120,7 +123,6 @@ void Customer::add_customer(queue<Customer>& customerQueue, const string& name, 
 	cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
 }
 
-
 void Customer::display_customer_details(int customer_id)
 {
 	cout << "Implementations Test: Customer Class" << endl;
@@ -151,5 +153,24 @@ void Customer_Rent::return_video()
 void Customer_Rent::display_all()
 {
 	cout << "Implementations Test: Customer_Rent Class" << endl;
+}
+
+void Customer_Rent::generate_time()
+{
+	auto now = chrono::system_clock::now();
+
+	// Convert to time_t (epoch time)
+	time_t now_time_t = chrono::system_clock::to_time_t(now);
+
+	// Convert to local time using localtime_s
+	tm local_tm;
+	localtime_s(&local_tm, &now_time_t);
+
+	// Format time as a string
+	char buffer[80];
+	strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &local_tm);
+
+	// Output formatted time
+	cout << "Current local time: " << buffer << endl;
 }
 

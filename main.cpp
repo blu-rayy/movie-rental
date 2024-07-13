@@ -1,5 +1,4 @@
 #include <iostream>
-#include <fstream>
 #include <string>
 #include <list>
 #include <queue>
@@ -18,13 +17,13 @@ int main() {
 
     //insert input functions here; ensure same data type as the function
     //cin >> title_input then replace on "Die Hard" below, do the rest for the other variables
-
     //v.insert_video(movies, Video("Die Hard", "Action", "20th Century Fox", 5));
 
-    c.add_customer(customers, "John Doe", "123 Main St");
-    c.add_customer(customers, "Jane Smith", "456 Oak Ave");
-    c.add_customer(customers, "Miles Morales", "Earth 317");
+    //c.add_customer(customers, "John Doe", "123 Main St");
+    //c.add_customer(customers, "Jane Smith", "456 Oak Ave");
+    //c.add_customer(customers, "Miles Morales", "Earth 317");
 
+    cr.generate_time();
 
     return 0;
 
