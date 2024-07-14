@@ -129,7 +129,7 @@ int main() {
 				header();
 				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
 
-				c.display_all(); 
+				v.display_all_movies();
 
 				cout << "\nEnter Video ID to rent: ";
 				cin.ignore();

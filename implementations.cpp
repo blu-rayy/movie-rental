@@ -165,7 +165,7 @@ void Customer::display_customer_details(int customer_id)
 	inFile.close();
 }
 
-void Customer::display_all()
+void Video::display_all_movies()
 {
 	ifstream inFile("movies.txt");
 	if (!inFile) {
