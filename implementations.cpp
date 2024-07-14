@@ -175,7 +175,7 @@ void Customer::display_all()
 
 	string line;
 	cout << "Available Movies" << endl;
-	cout << "===================\n" << endl;
+	cout << "===================" << endl;
 
 	cout << left << setw(12) << "Video ID"
 		<< left << setw(40) << "Title" // Increased width for Title
