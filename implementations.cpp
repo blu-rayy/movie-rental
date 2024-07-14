@@ -90,11 +90,6 @@ void Video::details_video(int video_id)
     cout << "Implementations Test: Video Class";
 }
 
-void Video::display_all()
-{
-    cout << "Implementations Test: Video Class" << endl;
-}
-
 bool Video::check_video_status(int video_id) {
     	return true;
 }
