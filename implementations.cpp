@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream> 
 #include <string>
 #include <chrono>
 #include <ctime>
@@ -140,12 +141,69 @@ void Customer::add_customer(queue<Customer>& customerQueue, const string& name, 
 
 void Customer::display_customer_details(int customer_id)
 {
-	cout << "Implementations Test: Customer Class" << endl;
+	ifstream inFile("customers.txt");
+	if (!inFile) {
+		cout << "Error opening file: customers.txt" << endl;
+		return;
+	}
+
+	string line;
+	while (getline(inFile, line)) {
+		stringstream ss(line);
+		string id_str, name;
+		getline(ss, id_str, ',');
+		getline(ss, name, ',');
+
+		int id = stoi(id_str);
+		if (id == customer_id) {
+			cout << "Customer ID: " << id << endl;
+			cout << "Name: " << name << endl;
+			break;
+		}
+	}
+
+	inFile.close();
 }
 
 void Customer::display_all()
 {
-	cout << "Implementations Test: Customer Class" << endl;
+	ifstream inFile("movies.txt");
+	if (!inFile) {
+		cout << "Error opening file: movies.txt" << endl;
+		return;
+	}
+
+	string line;
+	cout << "Available Movies" << endl;
+	cout << "===================\n" << endl;
+
+	cout << left << setw(12) << "Video ID"
+		<< left << setw(40) << "Title" // Increased width for Title
+		<< left << setw(20) << "Genre"
+		<< left << setw(25) << "Production"
+		<< left << setw(12) << "Copies" << endl;
+	cout << string(109, '-') << endl; // Adjusted separator line
+
+	while (getline(inFile, line)) {
+		stringstream ss(line);
+		string video_id, movie_title, genre, production;
+		int quantity;
+
+		getline(ss, video_id, ',');
+		getline(ss, movie_title, ',');
+		getline(ss, genre, ',');
+		getline(ss, production, ',');
+		ss >> quantity; // Read the quantity
+
+		// Output formatted details
+		cout << left << setw(12) << video_id
+			<< left << setw(40) << movie_title
+			<< left << setw(20) << genre
+			<< left << setw(25) << production
+			<< left << setw(12) << quantity << endl;
+	}
+
+	inFile.close(); 
 }
 
 

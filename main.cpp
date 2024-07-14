@@ -97,14 +97,41 @@ int main() {
 				system("cls");
 				header();
 				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
-				if (cr.first_instance) {
+
+				do {
 					cout << "Enter Customer ID: ";
 					cin >> user_customer_id;
-					//display customer details
-				}
-				cr.first_instance = false;
-				//display all videos
-				cout << "Enter Video ID to rent: ";
+
+					// Prompt to display customer details
+					system("cls");
+					header();
+					cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
+
+					cout << "Is this you? \n" << endl;
+					c.display_customer_details(user_customer_id);
+					cout << "\nConfirm? [Y/N]: ";
+					cin >> another;
+
+					if (toupper(another) == 'Y') {
+						break; // Proceed to rent a video
+					}
+					else {
+						system("cls");
+						header();
+						cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
+
+						cout << "Please enter your Customer ID again.\n" << endl;
+					}
+				} while (true);
+
+				// Proceed to rent a video
+				system("cls");
+				header();
+				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
+
+				c.display_all(); 
+
+				cout << "\nEnter Video ID to rent: ";
 				cin.ignore();
 				getline(cin, user_video_id);
 				transform(user_video_id.begin(), user_video_id.end(), user_video_id.begin(), ::toupper);
