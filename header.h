@@ -19,7 +19,7 @@ public:
     void rent_video(int video_id);
     void return_video(int video_id);
     void details_video(int video_id);
-    void display_all();
+    void display_all_movies();
     bool check_video_status(int video_id);
 };
 
@@ -34,7 +34,6 @@ public:
     Customer(const string& name, const string& address);
     void add_customer(queue<Customer>& customerQueue, const string& name, const string& address);
     void display_customer_details(int customer_id);
-    void display_all();
 };
 
 class Customer_Rent {

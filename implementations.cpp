@@ -165,7 +165,7 @@ void Customer::display_customer_details(int customer_id)
 	inFile.close();
 }
 
-void Customer::display_all()
+void Video::display_all_movies()
 {
 	ifstream inFile("movies.txt");
 	if (!inFile) {
@@ -175,7 +175,7 @@ void Customer::display_all()
 
 	string line;
 	cout << "Available Movies" << endl;
-	cout << "===================" << endl;
+	cout << "===================\n" << endl;
 
 	cout << left << setw(12) << "Video ID"
 		<< left << setw(40) << "Title" // Increased width for Title
