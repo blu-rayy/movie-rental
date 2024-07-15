@@ -110,10 +110,6 @@ int main() {
 					cin >> user_customer_id;
 
 					// Prompt to display customer details
-					system("cls");
-					header();
-					cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
-
 					cout << "Is this you? \n" << endl;
 					c.display_customer_details(user_customer_id);
 					cout << "\nConfirm? [Y/N]: ";
@@ -123,10 +119,6 @@ int main() {
 						break; // Proceed to rent a video
 					}
 					else {
-						system("cls");
-						header();
-						cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
-
 						cout << "Please enter your Customer ID again.\n" << endl;
 					}
 				} while (true);
@@ -167,7 +159,28 @@ int main() {
 			v.display_all_movies();
 			break;
 		case 6:
-			v.check_video_status(1);
+			do {
+				system("cls");
+				header();
+				cout << "YOU ARE NOW CHECKING VIDEO AVAILABILITY..." << endl << endl;
+
+				cout << "Enter Video ID to check: ";
+				cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+				getline(cin, user_video_id);
+				transform(user_video_id.begin(), user_video_id.end(), user_video_id.begin(), ::toupper);
+
+				v.check_video_status(user_video_id);
+
+				cout << "\nCheck another video? [Y/N]: ";
+				cin >> another;
+				if (cin.fail()) {
+					cin.clear();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+					cout << "Invalid choice" << endl;
+					continue;
+				}
+
+			} while (toupper(another) != 'N');
 			break;
 		case 7:
 			//string user_customer_name, user_customer_address declaration outside of switch-case 
