@@ -3,4 +3,4 @@
 3S, Interstellar, Sci-Fi, Paramount Pictures, 3
 4R, Lisa Frankenstein, Romance, MXN Entertainment, 3
 5C, White Chicks, Comedy, Columbia Pictures, 10
-6C, Inside Out 2, Comedy, Disney Pixar, 11
+6C, Inside Out 2, Comedy, Disney Pixar, 12
