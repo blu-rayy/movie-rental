@@ -157,7 +157,7 @@ int main() {
 			v.details_video(1);
 			break;
 		case 5:
-			v.display_all();
+			c.display_all();
 			break;
 		case 6:
 			v.check_video_status(1);
