@@ -9,6 +9,11 @@
 #include <queue>
 #include <stack>
 #include "header.h"
+#include "TextTable.h"
+
+#define TEXTTABLE_ENCODE_MULTIBYTE_STRINGS
+#define TEXTTABLE_USE_EN_US_UTF8
+
 using namespace std;
 
 void header() {
@@ -160,45 +165,50 @@ void Customer::display_customer_details(int customer_id)
 	inFile.close();
 }
 
-void Video::display_all_movies()
-{
-	ifstream inFile("movies.txt");
-	if (!inFile) {
-		cout << "Error opening file: movies.txt" << endl;
-		return;
-	}
+void Video::display_all_movies() {
+    ifstream inFile("movies.txt");
+    if (!inFile) {
+        cout << "Error opening file: movies.txt" << endl;
+        return;
+    }
 
-	string line;
-	cout << "Available Movies" << endl;
-	cout << "===================\n" << endl;
+    string line;
+    cout << "Available Movies" << endl;
+    cout << "===================\n" << endl;
 
-	cout << left << setw(12) << "Video ID"
-		<< left << setw(40) << "Title" // Increased width for Title
-		<< left << setw(20) << "Genre"
-		<< left << setw(25) << "Production"
-		<< left << setw(12) << "Copies" << endl;
-	cout << string(109, '-') << endl; // Adjusted separator line
+    TextTable displaymovies('-', '|', '+');
+    displaymovies.add("Video ID   ");
+    displaymovies.add("Movie Title  ");
+    displaymovies.add("Genre  ");
+    displaymovies.add("Production  ");
+    displaymovies.add("Copies  ");
+    displaymovies.endOfRow();
 
-	while (getline(inFile, line)) {
-		stringstream ss(line);
-		string video_id, movie_title, genre, production;
-		int quantity;
+    while (getline(inFile, line)) {
+        stringstream ss(line);
+        string video_id, movie_title, genre, production;
+        int quantity;
 
-		getline(ss, video_id, ',');
-		getline(ss, movie_title, ',');
-		getline(ss, genre, ',');
-		getline(ss, production, ',');
-		ss >> quantity; // Read the quantity
+        getline(ss, video_id, ',');
+        getline(ss, movie_title, ',');
+        getline(ss, genre, ',');
+        getline(ss, production, ',');
+        ss >> quantity; // Read the quantity
 
-		// Output formatted details
-		cout << left << setw(12) << video_id
-			<< left << setw(40) << movie_title
-			<< left << setw(20) << genre
-			<< left << setw(25) << production
-			<< left << setw(12) << quantity << endl;
-	}
+        ss.ignore();
 
-	inFile.close(); 
+        displaymovies.add(video_id);
+        displaymovies.add(movie_title);
+        displaymovies.add(genre);
+        displaymovies.add(production);
+        displaymovies.add(to_string(quantity));
+        displaymovies.endOfRow();
+    }
+
+    // inFile.close() should be here, after the while loop
+    inFile.close();
+
+    cout << displaymovies << endl;
 }
 
 
@@ -398,7 +408,128 @@ void Customer_Rent::return_video(stack<string>& customer_rent_stack, int custome
 }
 
 void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
-	cout << "Implementations Test: Customer_Rent Class" << endl;
+    string customerID;
+    cout << "Enter customer ID: ";
+    cin >> customerID;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore leftover newline
+
+    ifstream inCustomerInfo("customers.txt");
+    if (!inCustomerInfo) {
+        cout << "Failed to open customers.txt" << endl;
+        return;
+    }
+
+    string line;
+    bool found = false;
+    string customerName, customerAddress;
+
+    // Check if the customer ID exists in customers.txt
+    while (getline(inCustomerInfo, line)) {
+        stringstream ss(line);
+        string id;
+        getline(ss, id, ',');
+        if (id == customerID) {
+            getline(ss, customerName, ',');
+            getline(ss, customerAddress, ',');
+            // Trim any leading spaces
+            customerName = customerName.substr(1);
+            customerAddress = customerAddress.substr(1);
+            found = true;
+            break;
+        }
+    }
+
+    inCustomerInfo.close();
+
+    if (!found) {
+        cout << "Customer ID not found." << endl;
+        return;
+    }
+
+    TextTable t('-', '|', '+');
+    t.add("Customer ID");
+    t.add(customerID);
+    t.endOfRow();
+
+    t.add("Name");
+    t.add(customerName);
+    t.endOfRow();
+
+    t.add("Address");
+    t.add(customerAddress);
+    t.endOfRow();
+
+    vector<string> rentedVideos;
+    ifstream inCustomerRent("customer_rent.txt");
+    if (!inCustomerRent) {
+        cout << "Failed to open customer_rent.txt" << endl;
+        return;
+    }
+
+    found = false;
+
+    // Check if the customer has rented any videos
+    while (getline(inCustomerRent, line)) {
+        size_t pos = line.find(" & ");
+        if (pos != string::npos) {
+            string customerPart = line.substr(pos + 3);
+            size_t atPos = customerPart.find(" @ ");
+            if (atPos != string::npos) {
+                string customerDetails = customerPart.substr(0, atPos);
+                if (customerDetails.find(customerID + ",") != string::npos) {
+                    string videoPart = line.substr(0, pos);
+                    string rentalDate = customerPart.substr(atPos + 3);
+                    
+                    // Extract Video ID and Movie Title from videoPart
+                    stringstream videoStream(videoPart);
+                    string videoID, movieTitle;
+                    getline(videoStream, videoID, ',');
+                    getline(videoStream, movieTitle, ',');
+                    movieTitle = movieTitle.substr(1); // Trim leading space
+                    
+                    rentedVideos.push_back(videoID + ", " + movieTitle + " @ " + rentalDate);
+                    found = true;
+                }
+            }
+        }
+    }
+
+    inCustomerRent.close();
+
+    if (!found) {
+        cout << "No videos found for customer ID " << customerID << "." << endl;
+    } else {
+        // Create a new TextTable instance for rented videos
+        TextTable rentedVideosTable('-', '|', '+');
+        
+        rentedVideosTable.add("Rented Videos:");
+		rentedVideosTable.add("");
+		rentedVideosTable.add("");
+        rentedVideosTable.endOfRow();
+
+        rentedVideosTable.add("Video ID");
+        rentedVideosTable.add("Movie Title");
+        rentedVideosTable.add("Rental Date");
+        rentedVideosTable.endOfRow();
+
+        for (const auto& video : rentedVideos) {
+            size_t atPos = video.find(" @ ");
+            string videoInfo = video.substr(0, atPos);
+            string rentalDate = video.substr(atPos + 3);
+            stringstream ss(videoInfo);
+            string videoID, movieTitle;
+            getline(ss, videoID, ',');
+            getline(ss, movieTitle, ',');
+            movieTitle = movieTitle.substr(1); // Trim leading space
+
+            rentedVideosTable.add(videoID);
+            rentedVideosTable.add(movieTitle);
+            rentedVideosTable.add(rentalDate);
+            rentedVideosTable.endOfRow();
+        }
+        cout << t << endl; // Print customer information table first
+        cout << rentedVideosTable << endl; // Print rented videos table
+    }
 }
 
 string Customer_Rent::generate_time()
@@ -406,7 +537,7 @@ string Customer_Rent::generate_time()
 	auto now = chrono::system_clock::now();
 	time_t now_time_t = chrono::system_clock::to_time_t(now); // Convert to time_t (epoch time)
 	tm local_tm; // Convert to local time using localtime_s
-	localtime_s(&local_tm, &now_time_t);
+	localtime_r(&now_time_t, &local_tm);
 	char time[80];
 	strftime(time, sizeof(time), "%Y-%m-%d %H:%M:%S", &local_tm); // Format time as a string
 
