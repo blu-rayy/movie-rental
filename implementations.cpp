@@ -162,13 +162,9 @@ Customer::Customer()
 Customer::Customer(const string& name, const string& address) //also a parameterized constructor
     : customer_name(name), customer_address(address) {}
 
-void Customer::add_customer(queue<Customer>& customerQueue, const string& name, const string& address)
+void Customer::add_customer(queue<Customer>& customerQueue, Customer& newCustomer)
 {
-    header();
-
-    Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
     newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
-
     customerQueue.push(newCustomer);
 
     ofstream outCustomer("customers.txt");

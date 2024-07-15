@@ -183,16 +183,41 @@ int main() {
 			} while (toupper(another) != 'N');
 			break;
 		case 7:
-			//string user_customer_name, user_customer_address declaration outside of switch-case 
-			cout << "YOU ARE NOW ADDING TO THE DATABASE FOR CUSTOMERS..." << endl << endl;
-			cout << "Enter Customer Name: ";
-			cin.ignore();
-			getline(cin, user_customer_name);
-			cout << "Enter Customer Address: ";
-			getline(cin, user_customer_address);
+			system("cls");
+			header();
 
-			c.add_customer(customers, user_customer_name, user_customer_address);
+			while (toupper(ans) == 'Y') {
+				cout << "YOU ARE NOW ADDING TO THE DATABASE FOR CUSTOMERS..." << endl << endl;
+				cout << "Enter Customer Name: ";
+				cin.ignore();
+				getline(cin, user_customer_name);
 
+				while (user_customer_name.empty()) {
+					cout << "Customer Name cannot be empty. Please enter a valid name: ";
+					getline(cin, user_customer_name);
+				}
+
+				cout << "Enter Customer Address: ";
+				getline(cin, user_customer_address);
+
+				while (user_customer_address.empty()) {
+					cout << "Customer Address cannot be empty. Please enter a valid address: ";
+					getline(cin, user_customer_address);
+				}
+
+				Customer newCustomer(user_customer_name, user_customer_address);  // Create a new customer with the provided name and address
+				c.add_customer(customers, newCustomer);  // Add customer to the queue
+
+				cout << "Add another customer? [Y/N]: ";
+				cin >> ans;
+
+				while (toupper(ans) != 'Y' && toupper(ans) != 'N') {
+					cout << "Invalid choice. Please enter valid answer: ";
+					cin >> ans;
+				}
+				system("cls");
+				header();
+			}
 			break;
 		case 8:
 			cout << "Enter Customer ID: ";

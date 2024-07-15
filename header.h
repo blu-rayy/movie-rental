@@ -31,7 +31,7 @@ protected:
 public:
     Customer();
     Customer(const string& name, const string& address);
-    void add_customer(queue<Customer>& customerQueue, const string& name, const string& address);
+    void add_customer(queue<Customer>& customerQueue, Customer& newCustomer);
     void display_customer_details(int customer_id);
 };
 
