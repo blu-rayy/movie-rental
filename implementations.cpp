@@ -155,17 +155,18 @@ void Customer::display_customer_details(int customer_id)
 		getline(ss, name, ',');
         getline(ss, address, ',');
 
-		int id = stoi(id_str);
-		if (id == customer_id) {
-			cout << "Customer ID: " << id << endl;
-			cout << "Name: " << name << endl;
-            cout << "Address: " << address << endl;
-			break;
+			// Read the customer details from the line
+			if (getline(ss, id_str, ',') && getline(ss, name, ',') && getline(ss, address, ',')) {
+				int id = stoi(id_str); // Convert ID string to integer
+				if (id == customer_id) {
+					cout << "Customer ID: " << id << endl;
+					cout << "Customer Name: " << name << endl;
+					cout << "Customer Address: " << address << endl;
+					found = true;
+					break; // Exit loop once the customer is found
+				}
+			}
 		}
-	}
-
-	inFile.close();
-}
 
 void Video::display_all_movies() {
     ifstream inFile("movies.txt");
