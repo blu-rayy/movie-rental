@@ -141,32 +141,35 @@ void Customer::add_customer(queue<Customer>& customerQueue, const string& name, 
 
 void Customer::display_customer_details(int customer_id)
 {
-	ifstream inFile("customers.txt");
-	if (!inFile) {
-		cout << "Error opening file: customers.txt" << endl;
-		return;
-	}
+    ifstream inFile("customers.txt");
+    if (!inFile) {
+        cout << "Error opening file: customers.txt" << endl;
+        return;
+    }
 
-	string line;
-	while (getline(inFile, line)) {
-		stringstream ss(line);
-		string id_str, name, address;
-		getline(ss, id_str, ',');
-		getline(ss, name, ',');
+    string line;
+    bool found = false;
+    while (getline(inFile, line)) {
+        stringstream ss(line);
+        string id_str, name, address;
+        getline(ss, id_str, ',');
+        getline(ss, name, ',');
         getline(ss, address, ',');
 
-			// Read the customer details from the line
-			if (getline(ss, id_str, ',') && getline(ss, name, ',') && getline(ss, address, ',')) {
-				int id = stoi(id_str); // Convert ID string to integer
-				if (id == customer_id) {
-					cout << "Customer ID: " << id << endl;
-					cout << "Customer Name: " << name << endl;
-					cout << "Customer Address: " << address << endl;
-					found = true;
-					break; 
-				}
-			}
-		}
+        // Read the customer details from the line
+        if (getline(ss, id_str, ',') && getline(ss, name, ',') && getline(ss, address, ',')) {
+            int id = stoi(id_str); // Convert ID string to integer
+            if (id == customer_id) {
+                cout << "Customer ID: " << id << endl;
+                cout << "Customer Name: " << name << endl;
+                cout << "Customer Address: " << address << endl;
+                found = true;
+                break;
+            }
+        }
+    }
+    if (!found) cout << "Customer with ID " << customer_id << " not found." << endl;
+}
 
 void Video::display_all_movies() {
     ifstream inFile("movies.txt");

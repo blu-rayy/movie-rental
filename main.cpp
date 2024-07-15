@@ -18,7 +18,7 @@ int main() {
 	header();
 	int choice, genre_choice, user_quantity, user_customer_id;
 	string user_title, user_genre, user_production, user_video_id;
-	char another;
+	char another, ans = 'Y';
 
 	do {
 		cr.first_instance = true;
@@ -168,7 +168,10 @@ int main() {
 			c.add_customer(customers, "Miles Morales", "Earth 317");
 			break;
 		case 8:
-			c.display_customer_details(1);
+			cout << "Enter Customer ID: ";
+			cin >> user_customer_id;
+
+			c.display_customer_details(user_customer_id);
 			break;
 		case 9:
 			cr.display_rent(rent);
@@ -179,13 +182,8 @@ int main() {
 		default:
 			cout << "Invalid choice" << endl;
 			break;
-		}
-	} while (true);
+			}
+		} while (true);
 
-	//when creating new functions, always include:
-	// header();
-	// rest of the code
-
-	return 0;
-
-}
+		return 0;
+	}
