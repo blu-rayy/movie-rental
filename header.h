@@ -24,7 +24,7 @@ public:
 
 
 class Customer{
-private:
+protected:
     int customer_id;
     string customer_name;
     string customer_address;
@@ -36,8 +36,6 @@ public:
 };
 
 class Customer_Rent : public Customer {
-private:
-    int customer_id;
 public:
     Customer_Rent();
     void rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id);
