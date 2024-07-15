@@ -351,9 +351,50 @@ void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
 	cout << "Quantity updated successfully." << endl;
 }
 
-void Customer_Rent::return_video()
+void Customer_Rent::return_video(stack<string>& customer_rent_stack, int customer_id, string movie_id)
 {
-	cout << "Implementations Test: Customer_Rent Class" << endl;
+	// Open customers.txt to find the requested customer_id
+	ifstream getCustomer_ID("customers.txt");
+	if (getCustomer_ID.fail()) {
+		cout << "Error opening file: customers.txt" << endl;
+		return;
+	}
+
+	string customerID_result, customer_info;
+	while (getline(getCustomer_ID, customer_info)) {
+		if (customer_info.find(to_string(customer_id) + ",") == 0) {
+			customerID_result = customer_info;
+			break;
+		}
+	}                                                  
+	getCustomer_ID.close();
+
+	if (customerID_result.empty()) {
+		cout << "Customer ID not found" << endl;
+		first_instance = true;
+		return;
+	}
+
+	// Read the current contents of customer_rent.txt
+	ifstream inCustomerRent("customer_rent.txt");
+	if (!inCustomerRent) {
+		cout << "Error opening file: customer_rent.txt" << endl;
+		return;
+	}
+
+	string customerID_result, customer_info;
+	while (getline(inCustomerRent, customer_info)) {
+		int customerID_index = customer_info.find('&');
+		int index_start = customerID_index + 2;
+		int index_end = customer_info.find(',', index_start);
+		string customer_result = customer_info.substr(index_start, index_end - index_start);
+		if (customer_id == stoi(customer_result))
+		{
+			string videoID = customer_info.substr(0, 2);
+			cout << "Video ID: " << videoID << endl;
+		}
+	}
+
 }
 
 void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
