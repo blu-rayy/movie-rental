@@ -129,7 +129,7 @@ int main() {
 				header();
 				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
 
-				c.display_all(); 
+				v.display_all_movies();
 
 				cout << "\nEnter Video ID to rent: ";
 				cin.ignore();
@@ -157,7 +157,7 @@ int main() {
 			v.details_video(1);
 			break;
 		case 5:
-			c.display_all();
+			v.display_all_movies();
 			break;
 		case 6:
 			v.check_video_status(1);
