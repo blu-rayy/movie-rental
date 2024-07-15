@@ -42,7 +42,6 @@ int main() {
 		cout << "[10] Exit" << endl;
 		cout << "\nWhat would you like to do?: ";
 		cin >> choice;
-		cin.ignore(); 
 
 		switch (choice) {
 		case 1:
@@ -52,7 +51,7 @@ int main() {
 				cout << "YOU ARE NOW ADDING TO THE DATABASE FOR VIDEOS..." << endl << endl;
 
 				cout << "Enter the title of the movie: ";
-				cin.ignore(); 
+				cin.ignore();
 				getline(cin, user_title);
 				do {
 					cout << "\n[1] Action" << endl << "[2] Comedy" << endl << "[3] Horror" << endl << "[4] Romance" << endl << "[5] Sci-Fi" << endl;
@@ -61,11 +60,11 @@ int main() {
 
 					if (cin.fail()) {
 						cin.clear();
-						cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+						cin.ignore();
 						cout << "Invalid choice" << endl;
 						continue;
 					}
-					else cin.ignore(numeric_limits<streamsize>::max(), '\n');
+					else cin.ignore();
 
 					switch (genre_choice) {
 					case 1: user_genre = "Action"; break;
@@ -81,7 +80,6 @@ int main() {
 					getline(cin, user_production);
 					cout << "How many copies of the movie do you have?: ";
 					cin >> user_quantity;
-					cin.ignore(); 
 
 					v.insert_video(movies, Video(user_title, user_genre, user_production, user_quantity));
 					break;
@@ -91,11 +89,11 @@ int main() {
 				cin >> another;
 				if (cin.fail()) {
 					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+					cin.ignore();
 					cout << "Invalid choice" << endl;
 					continue;
 				}
-				else cin.ignore(); 
+				else cin.ignore();
 			} while (toupper(another) != 'N');
 			system("cls");
 			header();
@@ -106,17 +104,20 @@ int main() {
 				header();
 				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
 
+				bool customer_found = false;
 				do {
 					cout << "Enter Customer ID: ";
 					cin >> user_customer_id;
-					cin.ignore(); 
 
-					// Prompt to display customer details
-					cout << "Is this you? \n" << endl;
-					c.display_customer_details(user_customer_id);
-					cout << "\nConfirm? [Y/N]: ";
+					// Check if the customer details were displayed
+					customer_found = c.display_customer_details(user_customer_id);
+
+					if (!customer_found) {
+						continue;
+					}
+
+					cout << "Is this you? [Y/N]: ";
 					cin >> another;
-					cin.ignore(); 
 
 					if (toupper(another) == 'Y') {
 						break; // Proceed to rent a video
@@ -134,7 +135,7 @@ int main() {
 				v.display_all_movies();
 
 				cout << "\nEnter Video ID to rent: ";
-				cin.ignore(); 
+				cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
 				getline(cin, user_video_id);
 				transform(user_video_id.begin(), user_video_id.end(), user_video_id.begin(), ::toupper);
 
@@ -143,14 +144,15 @@ int main() {
 				cin >> another;
 				if (cin.fail()) {
 					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
 					cout << "Invalid choice" << endl;
 					continue;
 				}
-				else cin.ignore();
+				else {
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+				}
 
 			} while (toupper(another) != 'N');
-
 			break;
 		case 3:
 			cr.return_video(rent, 1);
@@ -168,7 +170,8 @@ int main() {
 				cout << "YOU ARE NOW CHECKING VIDEO AVAILABILITY..." << endl << endl;
 
 				cout << "Enter Video ID to check: ";
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+				getline(cin, user_video_id);
 				transform(user_video_id.begin(), user_video_id.end(), user_video_id.begin(), ::toupper);
 
 				v.check_video_status(user_video_id);
@@ -177,11 +180,10 @@ int main() {
 				cin >> another;
 				if (cin.fail()) {
 					cin.clear();
-					cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
 					cout << "Invalid choice" << endl;
 					continue;
 				}
-				else cin.ignore(); 
 
 			} while (toupper(another) != 'N');
 			break;
@@ -192,6 +194,7 @@ int main() {
 			while (toupper(ans) == 'Y') {
 				cout << "YOU ARE NOW ADDING TO THE DATABASE FOR CUSTOMERS..." << endl << endl;
 				cout << "Enter Customer Name: ";
+				cin.ignore();
 				getline(cin, user_customer_name);
 
 				while (user_customer_name.empty()) {
@@ -200,7 +203,7 @@ int main() {
 				}
 
 				cout << "Enter Customer Address: ";
-				getline(cin, user_customer_address); // Removed extra cin.ignore()
+				getline(cin, user_customer_address);
 
 				while (user_customer_address.empty()) {
 					cout << "Customer Address cannot be empty. Please enter a valid address: ";
@@ -212,63 +215,33 @@ int main() {
 
 				cout << "Add another customer? [Y/N]: ";
 				cin >> ans;
-				cin.ignore(); 
 
 				while (toupper(ans) != 'Y' && toupper(ans) != 'N') {
 					cout << "Invalid choice. Please enter valid answer: ";
 					cin >> ans;
-					cin.ignore();
 				}
 				system("cls");
 				header();
 			}
 			break;
 		case 8:
-			system("CLS");
-			header();
-
-			while (toupper(ans) == 'Y') {
-
-				cout << "Enter Customer ID: ";
-				while (true) {
-					cin >> user_customer_id;
-					if (cin.fail()) {
-						cout << "Invalid input. Please enter an integer value only: ";
-						cin.clear();
-						cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-					}
-					else {
-						cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
-						break;
-					}
-				}
-
-				c.display_customer_details(user_customer_id); // Pass customer_id to display details
-
-				cout << "Display another customer? (Y/N): ";
-				cin >> ans;
-				cin.ignore(); 
-				while (toupper(ans) != 'Y' && toupper(ans) != 'N') {
-					cout << "Invalid input. Please enter 'Y' or 'N' only: ";
-					cin >> ans;
-					cin.ignore(); 
-				}
-
-				system("CLS");
-				header();
-			}
+			cout << "Enter Customer ID: ";
+			cin >> user_customer_id;
+			c.display_customer_details(user_customer_id);
 			break;
 		case 9: {
 			cout << "Enter customer ID: ";
 			cin >> user_customer_id;
-			cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			cout << "Press any key to continue" << endl;
 
+			// Ensure the input buffer is completely cleared
 			while (cin.peek() != '\n') {
 				cin.ignore(numeric_limits<streamsize>::max(), '\n');
 			}
 
+			// Display rental information
 			cr.display_rent(rent, user_customer_id);
 			break;
 		}
