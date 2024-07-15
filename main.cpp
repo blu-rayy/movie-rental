@@ -1,9 +1,16 @@
 #include <iostream>
+#include <algorithm>
+#include <limits>
 #include <string>
 #include <list>
 #include <queue>
 #include <stack>
 #include "header.h"
+#include "TextTable.h"
+
+#define TEXTTABLE_ENCODE_MULTIBYTE_STRINGS
+#define TEXTTABLE_USE_EN_US_UTF8
+
 using namespace std;
 
 int main() {
@@ -177,12 +184,24 @@ int main() {
 		case 8:
 			cout << "Enter Customer ID: ";
 			cin >> user_customer_id;
-
 			c.display_customer_details(user_customer_id);
 			break;
-		case 9:
-			cr.display_rent(rent);
+		case 9: {
+			cout << "Enter customer ID: ";
+			cin >> user_customer_id;
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			cout << "Press any key to continue" <<endl;
+
+			// Ensure the input buffer is completely cleared
+			while (cin.peek() != '\n') {
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			}
+
+			// Display rental information
+			cr.display_rent(rent, user_customer_id);
 			break;
+		}
 		case 10:
 			goodbye();
 			return 0;

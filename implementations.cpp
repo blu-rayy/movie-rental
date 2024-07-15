@@ -167,13 +167,26 @@ void Customer::display_customer_details(int customer_id)
 		getline(ss, address, ',');
 
 		if (stoi(id) == customer_id) {
-			cout << "Customer ID: " << id << endl;
-			cout << "Name: " << name << endl;
-			cout << "Address: " << address << endl;
+
+                TextTable customer('-', '|', '+');
+
+                customer.add("Customer ID");
+                customer.add(id);
+                customer.endOfRow();
+
+                customer.add("Name");
+                customer.add(name);
+                customer.endOfRow();
+
+                customer.add("Address");
+                customer.add(address);
+                customer.endOfRow();
+
+                cout << customer << endl;
+
 			found = true;
 			break;
 		}
-	
     }
 
 }
@@ -500,12 +513,8 @@ void Customer_Rent::return_video(stack<string>& customer_rent_stack, int custome
 
 }
 
-void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
-    string customerID;
-    cout << "Enter customer ID: ";
-    cin >> customerID;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore leftover newline
-
+void Customer_Rent::display_rent(stack<string>& customer_rent_stack, int customer_id) {
+    string customerID = to_string(customer_id);
     ifstream inCustomerInfo("customers.txt");
     if (!inCustomerInfo) {
         cout << "Failed to open customers.txt" << endl;
@@ -514,6 +523,7 @@ void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
 
     string line;
     bool found = false;
+
     string customerName, customerAddress;
 
     // Check if the customer ID exists in customers.txt
@@ -551,6 +561,8 @@ void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
     t.add("Address");
     t.add(customerAddress);
     t.endOfRow();
+
+    cout << t << endl; // Print customer information table first
 
     vector<string> rentedVideos;
     ifstream inCustomerRent("customer_rent.txt");
@@ -590,7 +602,7 @@ void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
     inCustomerRent.close();
 
     if (!found) {
-        cout << "No videos found for customer ID " << customerID << "." << endl;
+        cout << "No videos found for customer ID " << customerID << ".\n" << endl;
     } else {
         // Create a new TextTable instance for rented videos
         TextTable rentedVideosTable('-', '|', '+');
@@ -620,7 +632,6 @@ void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
             rentedVideosTable.add(rentalDate);
             rentedVideosTable.endOfRow();
         }
-        cout << t << endl; // Print customer information table first
         cout << rentedVideosTable << endl; // Print rented videos table
     }
 }

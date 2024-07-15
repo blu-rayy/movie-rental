@@ -42,7 +42,7 @@ public:
     void decrementMovieQuantity(const string& movie_id);
     void incrementMovieQuantity(const string& movie_id);
     void return_video(stack<string>& customer_rent_stack, int customer_id);
-    void display_rent(stack<string>& customer_rent_stack);
+    void display_rent(stack<string>& customer_rent_stack, int customer_id);
     string generate_time();
     bool first_instance;
 };
