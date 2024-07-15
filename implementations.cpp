@@ -199,7 +199,7 @@ void Customer::display_customer_details(int customer_id)
 					cout << "Customer Name: " << name << endl;
 					cout << "Customer Address: " << address << endl;
 					found = true;
-					break; // Exit loop once the customer is found
+					break; 
 				}
 			}
 		}
