@@ -23,7 +23,7 @@ int main() {
 	Customer_Rent cr;
 
 	header();
-	int choice, genre_choice, user_quantity, user_customer_id, customerID;
+	int choice, genre_choice, user_quantity, user_customer_id;
 	string user_title, user_genre, user_production, user_video_id;
 	char another, ans = 'Y';
 
@@ -181,7 +181,7 @@ int main() {
 			break;
 		case 9: {
 			cout << "Enter customer ID: ";
-			cin >> customerID;
+			cin >> user_customer_id;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
 			cout << "Press any key to continue" <<endl;
@@ -192,7 +192,7 @@ int main() {
 			}
 
 			// Display rental information
-			cr.display_rent(rent, customerID);
+			cr.display_rent(rent, user_customer_id);
 			break;
 		}
 		case 10:

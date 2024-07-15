@@ -642,7 +642,7 @@ string Customer_Rent::generate_time()
     time_t now_time_t = chrono::system_clock::to_time_t(now);
     tm local_tm;
 
-    localtime_r(&now_time_t, &local_tm); // For Windows
+    localtime_s(&local_tm, &now_time_t); // For Windows
     // localtime_r(&now_time_t, &local_tm); // For Mac
 
     char time_buffer[80];
