@@ -1,2 +1,12 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+1, John Doe, 123 Main St
+2, Jane Smith, 456 Oak Ave
+3, Miles Morales, Earth 317
+=======
+1, angels, nas
+>>>>>>> 31bd267026617b858b8045ec051245e835a3d5cd
+=======
 1, Ashley, 8 North House
 2, Miles, Earth 787
+>>>>>>> master
