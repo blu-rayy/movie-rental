@@ -15,14 +15,13 @@ private:
 public:
     Video();
     Video(string title, string genre, string production, int quantity);
-    void insert_video(list<Video>& movies, const Video& video);//nilabas ko from the class
+    void insert_video(list<Video>& movies, const Video& video);
     void rent_video(int video_id);
     void return_video(int video_id);
     void details_video(int video_id);
     void display_all();
     bool check_video_status(int video_id);
 };
-
 
 class Customer {
 private:
@@ -32,7 +31,7 @@ private:
 public:
     Customer();
     Customer(const string& name, const string& address);
-    void add_customer(queue<Customer>& customerQueue);
+    void add_customer(queue<Customer>& customerQueue, Customer& newCustomer);
     void display_customer_details(int customer_id);
     void display_all();
 };

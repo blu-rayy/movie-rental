@@ -110,26 +110,12 @@ Customer::Customer()
 Customer::Customer(const string& name, const string& address) //also a parameterized constructor
 	: customer_name(name), customer_address(address) {}
 
-void Customer::add_customer(queue<Customer>& customerQueue)
+void Customer::add_customer(queue<Customer>& customerQueue, Customer& newCustomer)
 {
-	system("CLS");
-	header();
+	newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
+	customerQueue.push(newCustomer);
 
-	string name, address;
-	char ans = 'Y';
-	while (toupper(ans) == 'Y') {
-		cout << "\nEnter customer name: ";
-		cin.ignore();
-		getline(cin, name);
-
-		cout << "Enter customer address: ";
-		getline(cin, address);
-		Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
-		newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
-
-		customerQueue.push(newCustomer);
-
-		ofstream outCustomer("customers.txt");
+	ofstream outCustomer("customers.txt");
 		if (!outCustomer) {
 			cout << "Error opening file: customers.txt" << endl;
 			return;
@@ -147,76 +133,43 @@ void Customer::add_customer(queue<Customer>& customerQueue)
 		outCustomer.close();
 
 		cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
-		cout << "Add more? (Y/N): ";
-		cin >> ans;
-		while (toupper(ans) != 'Y' && toupper(ans) != 'N') {
-			cout << "Invalid input. Please enter 'Y' or 'N' only: ";
-			cin >> ans;
-		}
-	}
+
 }
 
 void Customer::display_customer_details(int customer_id)
 {
-	system("CLS");
-	header();
+	ifstream inFile("customers.txt");
+	if (!inFile) {
+		cout << "Error opening file: customers.txt" << endl;
+		return;
+	}
 
-	char ans = 'Y';
-	while (toupper(ans) == 'Y') {
+	string line;
+	bool found = false;
+	while (getline(inFile, line)) {
+		stringstream ss(line);
+		string id_str, name, address;
 
-		cout << "Enter Customer ID: ";
-
-		while (true) {
-			cin >> customer_id;
-			if (cin.fail()) {
-				cout << "Invalid input. Please enter an integer value only: ";
-				cin.clear();
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
-			}
-			else {
-				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		// Read the customer details from the line
+		if (getline(ss, id_str, ',') && getline(ss, name, ',') && getline(ss, address, ',')) {
+			int id = stoi(id_str); // Convert ID string to integer
+			if (id == customer_id) {
+				cout << "Customer ID: " << id << endl;
+				cout << "Customer Name: " << name << endl;
+				cout << "Customer Address: " << address << endl;
+				found = true;
 				break;
 			}
 		}
-
-		ifstream inFile("customers.txt");
-		if (!inFile) {
-			cout << "Error opening file: customers.txt" << endl;
-			return;
-		}
-
-		string line;
-		bool found = false;
-		while (getline(inFile, line)) {
-			stringstream ss(line);
-			string id_str, name, address;
-
-			// Read the customer details from the line
-			if (getline(ss, id_str, ',') && getline(ss, name, ',') && getline(ss, address, ',')) {
-				int id = stoi(id_str); // Convert ID string to integer
-				if (id == customer_id) {
-					cout << "Customer ID: " << id << endl;
-					cout << "Customer Name: " << name << endl;
-					cout << "Customer Address: " << address << endl;
-					found = true;
-					break; 
-				}
-			}
-		}
-
-		if (!found) {
-			cout << "Customer ID not found" << endl;
-		}
-
-		inFile.close();
-		cout << "Display another customer? (Y/N): ";
-		cin >> ans;
-		while (toupper(ans) != 'Y' && toupper(ans) != 'N') {
-			cout << "Invalid input. Please enter 'Y' or 'N' only: ";
-			cin >> ans;
-		}
 	}
+
+	if (!found) {
+		cout << "Customer ID not found" << endl;
+	}
+
+	inFile.close();
 }
+
 
 void Customer::display_all()
 {
