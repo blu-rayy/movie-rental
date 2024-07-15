@@ -182,7 +182,6 @@ int main() {
 
 			} while (toupper(another) != 'N');
 			break;
-<<<<<<< HEAD
 		case 7:
 			//string user_customer_name, user_customer_address declaration outside of switch-case 
 			cout << "YOU ARE NOW ADDING TO THE DATABASE FOR CUSTOMERS..." << endl << endl;
@@ -199,87 +198,13 @@ int main() {
 			cout << "Enter Customer ID: ";
 			cin >> user_customer_id;
 			c.display_customer_details(user_customer_id);
-=======
-		case 7: {
-			system("CLS");
-			header();
-
-			string name, address;
-			char ans = 'Y';
-			while (toupper(ans) == 'Y') {
-				cout << "\nEnter customer name: ";
-				cin.ignore();
-				getline(cin, name);
-
-				while (name.empty()) {
-					cout << "Field can't be empty. Please enter customer name: ";
-					getline(cin, name);
-				}
-
-				cout << "Enter customer address: ";
-				getline(cin, address);
-
-				while (address.empty()) {
-					cout << "Field can't be empty. Please enter customer address: ";
-					getline(cin, address);
-				}
-
-				Customer newCustomer(name, address);  // Create a new customer with the provided name and address
-				c.add_customer(customers, newCustomer);  // Add customer to the queue
-
-				cout << "Add more? (Y/N): ";
-				cin >> ans;
-				while (toupper(ans) != 'Y' && toupper(ans) != 'N') {
-					cout << "Invalid input. Please enter 'Y' or 'N' only: ";
-					cin >> ans;
-				}
-			}
 			break;
-<<<<<<< HEAD
-		}
-		case 8: {
-			system("CLS");
-			header();
-
-			char ans = 'Y';
-			while (toupper(ans) == 'Y') {
-				int customer_id;
-
-				cout << "Enter Customer ID: ";
-				while (true) {
-					cin >> customer_id;
-					if (cin.fail()) {
-						cout << "Invalid input. Please enter an integer value only: ";
-						cin.clear();
-						cin.ignore(numeric_limits<streamsize>::max(), '\n');
-					}
-					else {
-						cin.ignore(numeric_limits<streamsize>::max(), '\n');
-						break;
-					}
-				}
-
-				c.display_customer_details(customer_id); // Pass customer_id to display details
-
-				cout << "Display another customer? (Y/N): ";
-				cin >> ans;
-				while (toupper(ans) != 'Y' && toupper(ans) != 'N') {
-					cout << "Invalid input. Please enter 'Y' or 'N' only: ";
-					cin >> ans;
-				}
-			}
->>>>>>> 31bd267026617b858b8045ec051245e835a3d5cd
-			break;
-		}
-		case 9:
-			cr.display_rent(rent);
-=======
 		case 9: {
 			cout << "Enter customer ID: ";
 			cin >> user_customer_id;
 			cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-			cout << "Press any key to continue" <<endl;
+			cout << "Press any key to continue" << endl;
 
 			// Ensure the input buffer is completely cleared
 			while (cin.peek() != '\n') {
@@ -288,7 +213,6 @@ int main() {
 
 			// Display rental information
 			cr.display_rent(rent, user_customer_id);
->>>>>>> master
 			break;
 		}
 		case 10:
@@ -297,8 +221,8 @@ int main() {
 		default:
 			cout << "Invalid choice" << endl;
 			break;
-			}
-		} while (true);
+		}
+	} while (true);
 
-		return 0;
-	}
+	return 0;
+}

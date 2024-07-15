@@ -17,15 +17,15 @@
 using namespace std;
 
 void header() {
-	system("cls");
-	cout << "Welcome to the Video Rental System" << endl;
-	cout << "==================================" << endl;
+    system("cls");
+    cout << "Welcome to the Video Rental System" << endl;
+    cout << "==================================" << endl;
 }
 
 void goodbye() {
-	cout << "\nThank you for using the Video Rental System!" << endl;
-	cout << "\nDEVELOPERS:" << endl;
-	cout << "Kristian Bautista" << endl << "Patricia Damaso" << endl << "Wayne Garcia" << endl << "Angel Letada" << endl << "Marianne Santos" << endl;
+    cout << "\nThank you for using the Video Rental System!" << endl;
+    cout << "\nDEVELOPERS:" << endl;
+    cout << "Kristian Bautista" << endl << "Patricia Damaso" << endl << "Wayne Garcia" << endl << "Angel Letada" << endl << "Marianne Santos" << endl;
 }
 
 void sort(vector<string>& vec) {
@@ -50,54 +50,54 @@ void sort(vector<string>& vec) {
 
 Video::Video()
 {
-	video_id = "";
-	movie_title = "";
-	genre = "";
-	production = "";
-	quantity = 0;
+    video_id = "";
+    movie_title = "";
+    genre = "";
+    production = "";
+    quantity = 0;
 }
 
 Video::Video(string title, string genre, string production, int quantity) //parameterized constructor
-	: movie_title(title), genre(genre), production(production), quantity(quantity) {} //initialization list
+    : movie_title(title), genre(genre), production(production), quantity(quantity) {} //initialization list
 
 void Video::insert_video(list<Video>& movies, const Video& video) //takes in a list of movies and a video object to add to the list
 {
-	movies.push_back(video);
-		
+    movies.push_back(video);
+
     ofstream outVideo("movies.txt", ios::app);
     if (!outVideo) {
-		cout << "Error opening file: movies.txt" << endl;
-		return;
-	}
+        cout << "Error opening file: movies.txt" << endl;
+        return;
+    }
     else
-	{
-		ifstream countVideo("movies.txt"); //opens file and counts number of lines for Video ID
-		if (!countVideo) {
-			cout << "Error opening file: movies.txt" << endl;
-			return;
-		}
+    {
+        ifstream countVideo("movies.txt"); //opens file and counts number of lines for Video ID
+        if (!countVideo) {
+            cout << "Error opening file: movies.txt" << endl;
+            return;
+        }
 
-		int numLines = 0;
-		string line;
-		while (getline(countVideo, line)) {
-			numLines++;
-		}
-		countVideo.close();
+        int numLines = 0;
+        string line;
+        while (getline(countVideo, line)) {
+            numLines++;
+        }
+        countVideo.close();
 
-	string prefix = video.genre.substr(0, 1); //prefix for Video ID
-		video_id = to_string(numLines + 1) + prefix; //end of Video ID count 
+        string prefix = video.genre.substr(0, 1); //prefix for Video ID
+        video_id = to_string(numLines + 1) + prefix; //end of Video ID count 
 
-		outVideo << video_id << ", " 
-			<< video.movie_title << ", " 
-			<< video.genre << ", " 
-			<< video.production << ", " 
-			<< video.quantity << endl;
+        outVideo << video_id << ", "
+            << video.movie_title << ", "
+            << video.genre << ", "
+            << video.production << ", "
+            << video.quantity << endl;
 
-		outVideo.close();
-	}
+        outVideo.close();
+    }
 
     cout << "\nThe Movie \"" << video.movie_title << "\" with Video ID " << video_id << " has been added to the database!" << endl;
-	system("pause");
+    system("pause");
 }
 
 void Video::details_video(int video_id)
@@ -154,73 +154,45 @@ void Video::check_video_status(string video_id) {
 
 Customer::Customer()
 {
-	customer_id = 0;
-	customer_name = "";
-	customer_address = "";
+    customer_id = 0;
+    customer_name = "";
+    customer_address = "";
 }
 
 Customer::Customer(const string& name, const string& address) //also a parameterized constructor
-	: customer_name(name), customer_address(address) {}
+    : customer_name(name), customer_address(address) {}
 
-<<<<<<< HEAD
 void Customer::add_customer(queue<Customer>& customerQueue, const string& name, const string& address)
 {
-	header();
+    header();
 
-	Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
-	newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
+    Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
+    newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
 
-	customerQueue.push(newCustomer);
+    customerQueue.push(newCustomer);
 
-	ofstream outCustomer("customers.txt");
-	if (!outCustomer) {
-		cout << "Error opening file: customers.txt" << endl;
-		return;
-	}
+    ofstream outCustomer("customers.txt");
+    if (!outCustomer) {
+        cout << "Error opening file: customers.txt" << endl;
+        return;
+    }
 
-	queue<Customer> tempQueue = customerQueue; // Write all customers from the queue to the file
-	while (!tempQueue.empty()) {
-		Customer customer = tempQueue.front();
-		outCustomer << customer.customer_id << ", "
-			<< customer.customer_name << ", "
-			<< customer.customer_address << endl;
-		tempQueue.pop();
-	}
-	
-	outCustomer.close();
+    queue<Customer> tempQueue = customerQueue; // Write all customers from the queue to the file
+    while (!tempQueue.empty()) {
+        Customer customer = tempQueue.front();
+        outCustomer << customer.customer_id << ", "
+            << customer.customer_name << ", "
+            << customer.customer_address << endl;
+        tempQueue.pop();
+    }
 
-	cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
-=======
-void Customer::add_customer(queue<Customer>& customerQueue, Customer& newCustomer)
-{
-	newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
-	customerQueue.push(newCustomer);
+    outCustomer.close();
 
-	ofstream outCustomer("customers.txt");
-		if (!outCustomer) {
-			cout << "Error opening file: customers.txt" << endl;
-			return;
-		}
-
-		queue<Customer> tempQueue = customerQueue; // Write all customers from the queue to the file
-		while (!tempQueue.empty()) {
-			Customer customer = tempQueue.front();
-			outCustomer << customer.customer_id << ", "
-				<< customer.customer_name << ", "
-				<< customer.customer_address << endl;
-			tempQueue.pop();
-		}
-
-		outCustomer.close();
-
-		cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
-
->>>>>>> 31bd267026617b858b8045ec051245e835a3d5cd
+    cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
 }
 
 void Customer::display_customer_details(int customer_id)
 {
-<<<<<<< HEAD
     ifstream inFile("customers.txt");
     if (!inFile) {
         cout << "Error opening file: customers.txt" << endl;
@@ -231,32 +203,32 @@ void Customer::display_customer_details(int customer_id)
     bool found = false;
     while (getline(inFile, line)) {
         stringstream ss(line);
-		string id, name, address;
-		getline(ss, id, ',');
-		getline(ss, name, ',');
-		getline(ss, address, ',');
+        string id, name, address;
+        getline(ss, id, ',');
+        getline(ss, name, ',');
+        getline(ss, address, ',');
 
-		if (stoi(id) == customer_id) {
+        if (stoi(id) == customer_id) {
 
-                TextTable customer('-', '|', '+');
+            TextTable customer('-', '|', '+');
 
-                customer.add("Customer ID");
-                customer.add(id);
-                customer.endOfRow();
+            customer.add("Customer ID");
+            customer.add(id);
+            customer.endOfRow();
 
-                customer.add("Name");
-                customer.add(name);
-                customer.endOfRow();
+            customer.add("Name");
+            customer.add(name);
+            customer.endOfRow();
 
-                customer.add("Address");
-                customer.add(address);
-                customer.endOfRow();
+            customer.add("Address");
+            customer.add(address);
+            customer.endOfRow();
 
-                cout << customer << endl;
+            cout << customer << endl;
 
-			found = true;
-			break;
-		}
+            found = true;
+            break;
+        }
     }
 
 }
@@ -305,50 +277,12 @@ void Video::display_all_movies() {
     inFile.close();
 
     cout << displaymovies << endl;
-=======
-	ifstream inFile("customers.txt");
-	if (!inFile) {
-		cout << "Error opening file: customers.txt" << endl;
-		return;
-	}
-
-	string line;
-	bool found = false;
-	while (getline(inFile, line)) {
-		stringstream ss(line);
-		string id_str, name, address;
-
-		// Read the customer details from the line
-		if (getline(ss, id_str, ',') && getline(ss, name, ',') && getline(ss, address, ',')) {
-			int id = stoi(id_str); // Convert ID string to integer
-			if (id == customer_id) {
-				cout << "Customer ID: " << id << endl;
-				cout << "Customer Name: " << name << endl;
-				cout << "Customer Address: " << address << endl;
-				found = true;
-				break;
-			}
-		}
-	}
-
-	if (!found) {
-		cout << "Customer ID not found" << endl;
-	}
-
-	inFile.close();
-}
-
-
-void Customer::display_all()
-{
-	cout << "Implementations Test: Customer Class" << endl;
->>>>>>> 31bd267026617b858b8045ec051245e835a3d5cd
 }
 
 
 Customer_Rent::Customer_Rent()
 {
-	customer_id = 0;
+    customer_id = 0;
 }
 
 void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id) {
@@ -372,7 +306,7 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
 
     if (videoID_result.empty()) {
         cout << "Movie ID not found" << endl;
-		first_instance = true;
+        first_instance = true;
         return;
     }
 
@@ -394,7 +328,7 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
 
     if (customerID_result.empty()) {
         cout << "Customer ID not found" << endl;
-		first_instance = true;
+        first_instance = true;
         return;
     }
 
@@ -444,55 +378,55 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
 }
 
 void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
-	ifstream inFile("movies.txt");
-	if (inFile.fail()) {
-		cout << "Error opening file: movies.txt" << endl;
-		return;
-	}
+    ifstream inFile("movies.txt");
+    if (inFile.fail()) {
+        cout << "Error opening file: movies.txt" << endl;
+        return;
+    }
 
-	ofstream outFile("temp.txt");
-	if (outFile.fail()) {
-		cout << "Error opening file: temp.txt" << endl;
-		return;
-	}
+    ofstream outFile("temp.txt");
+    if (outFile.fail()) {
+        cout << "Error opening file: temp.txt" << endl;
+        return;
+    }
 
-	string movie_info, updated_movie_info;
-	bool movieFound = false;
+    string movie_info, updated_movie_info;
+    bool movieFound = false;
 
-	while (getline(inFile, movie_info)) {
-		if (movie_info.find(movie_id) != string::npos) {
-			string quantity = movie_info.substr(movie_info.find_last_of(",") + 2);
-			int quantity_int = stoi(quantity);
-			quantity_int--;
-			updated_movie_info = movie_info.substr(0, movie_info.find_last_of(",") + 2) + to_string(quantity_int);
-			outFile << updated_movie_info << endl;
-			movieFound = true;
-		}
-		else {
-			outFile << movie_info << endl;
-		}
-	}
+    while (getline(inFile, movie_info)) {
+        if (movie_info.find(movie_id) != string::npos) {
+            string quantity = movie_info.substr(movie_info.find_last_of(",") + 2);
+            int quantity_int = stoi(quantity);
+            quantity_int--;
+            updated_movie_info = movie_info.substr(0, movie_info.find_last_of(",") + 2) + to_string(quantity_int);
+            outFile << updated_movie_info << endl;
+            movieFound = true;
+        }
+        else {
+            outFile << movie_info << endl;
+        }
+    }
 
-	inFile.close();
-	outFile.close();
+    inFile.close();
+    outFile.close();
 
-	if (!movieFound) {
-		cout << "Video ID not found" << endl;
-		remove("temp.txt");
-		return;
-	}
+    if (!movieFound) {
+        cout << "Video ID not found" << endl;
+        remove("temp.txt");
+        return;
+    }
 
-	if (remove("movies.txt") != 0) {
-		cout << "Error deleting original file" << endl;
-		return;
-	}
+    if (remove("movies.txt") != 0) {
+        cout << "Error deleting original file" << endl;
+        return;
+    }
 
-	if (rename("temp.txt", "movies.txt") != 0) {
-		cout << "Error renaming temporary file" << endl;
-		return;
-	}
+    if (rename("temp.txt", "movies.txt") != 0) {
+        cout << "Error renaming temporary file" << endl;
+        return;
+    }
 
-	cout << "Quantity updated successfully." << endl;
+    cout << "Quantity updated successfully." << endl;
 }
 
 void Customer_Rent::incrementMovieQuantity(const string& movie_id) {
@@ -548,54 +482,54 @@ void Customer_Rent::incrementMovieQuantity(const string& movie_id) {
 
 void Customer_Rent::return_video(stack<string>& customer_rent_stack, int customer_id)
 {
-	// Open customers.txt to find the requested customer_id
-	ifstream getCustomer_ID("customers.txt");
-	if (getCustomer_ID.fail()) {
-		cout << "Error opening file: customers.txt" << endl;
-		return;
-	}
+    // Open customers.txt to find the requested customer_id
+    ifstream getCustomer_ID("customers.txt");
+    if (getCustomer_ID.fail()) {
+        cout << "Error opening file: customers.txt" << endl;
+        return;
+    }
 
-	string customerID_getresult, customer_get_info;
-	while (getline(getCustomer_ID, customer_get_info)) {
-		if (customer_get_info.find(to_string(customer_id) + ",") == 0) {
-			customerID_getresult = customer_get_info;
-			break;
-		}
-	}                                                  
-	getCustomer_ID.close();
+    string customerID_getresult, customer_get_info;
+    while (getline(getCustomer_ID, customer_get_info)) {
+        if (customer_get_info.find(to_string(customer_id) + ",") == 0) {
+            customerID_getresult = customer_get_info;
+            break;
+        }
+    }
+    getCustomer_ID.close();
 
-	if (customerID_getresult.empty()) {
-		cout << "Customer ID not found" << endl;
-		first_instance = true;
-		return;
-	}
+    if (customerID_getresult.empty()) {
+        cout << "Customer ID not found" << endl;
+        first_instance = true;
+        return;
+    }
 
-	// Read the current contents of customer_rent.txt
-	ifstream inCustomerRent("customer_rent.txt");
-	if (!inCustomerRent) {
-		cout << "Error opening file: customer_rent.txt" << endl;
-		return;
-	}
+    // Read the current contents of customer_rent.txt
+    ifstream inCustomerRent("customer_rent.txt");
+    if (!inCustomerRent) {
+        cout << "Error opening file: customer_rent.txt" << endl;
+        return;
+    }
 
     vector<string> temp;
     vector<string> records;
-	string customerID_result, customer_info;
-	while (getline(inCustomerRent, customer_info)) {
-		int customerID_index = customer_info.find('&');
-		int index_start = customerID_index + 2;
-		int index_end = customer_info.find(',', index_start);
-		string customer_result = customer_info.substr(index_start, index_end - index_start);
-		if (customer_id == stoi(customer_result))
-		{
-			string videoID = customer_info.substr(0, 2);
+    string customerID_result, customer_info;
+    while (getline(inCustomerRent, customer_info)) {
+        int customerID_index = customer_info.find('&');
+        int index_start = customerID_index + 2;
+        int index_end = customer_info.find(',', index_start);
+        string customer_result = customer_info.substr(index_start, index_end - index_start);
+        if (customer_id == stoi(customer_result))
+        {
+            string videoID = customer_info.substr(0, 2);
             incrementMovieQuantity(videoID);
-			records.push_back(videoID);
-		}
+            records.push_back(videoID);
+        }
         else
-		{
-			temp.push_back(customer_info);
-		}
-	}
+        {
+            temp.push_back(customer_info);
+        }
+    }
 
     inCustomerRent.close();
 
@@ -692,14 +626,14 @@ void Customer_Rent::display_rent(stack<string>& customer_rent_stack, int custome
                 if (customerDetails.find(customerID + ",") != string::npos) {
                     string videoPart = line.substr(0, pos);
                     string rentalDate = customerPart.substr(atPos + 3);
-                    
+
                     // Extract Video ID and Movie Title from videoPart
                     stringstream videoStream(videoPart);
                     string videoID, movieTitle;
                     getline(videoStream, videoID, ',');
                     getline(videoStream, movieTitle, ',');
                     movieTitle = movieTitle.substr(1); // Trim leading space
-                    
+
                     rentedVideos.push_back(videoID + ", " + movieTitle + " @ " + rentalDate);
                     found = true;
                 }
@@ -711,13 +645,14 @@ void Customer_Rent::display_rent(stack<string>& customer_rent_stack, int custome
 
     if (!found) {
         cout << "No videos found for customer ID " << customerID << ".\n" << endl;
-    } else {
+    }
+    else {
         // Create a new TextTable instance for rented videos
         TextTable rentedVideosTable('-', '|', '+');
-        
+
         rentedVideosTable.add("Rented Videos:");
-		rentedVideosTable.add("");
-		rentedVideosTable.add("");
+        rentedVideosTable.add("");
+        rentedVideosTable.add("");
         rentedVideosTable.endOfRow();
 
         rentedVideosTable.add("Video ID");
@@ -758,4 +693,3 @@ string Customer_Rent::generate_time()
 
     return std::string(time_buffer);
 }
-
