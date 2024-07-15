@@ -17,7 +17,7 @@ int main() {
 
 	header();
 	int choice, genre_choice, user_quantity, user_customer_id;
-	string user_title, user_genre, user_production, user_video_id;
+	string user_title, user_genre, user_production, user_video_id, user_customer_name, user_customer_address;
 	char another, ans = 'Y';
 
 	do {
@@ -163,9 +163,16 @@ int main() {
 			v.check_video_status(1);
 			break;
 		case 7:
-			c.add_customer(customers, "John Doe", "123 Main St");
-			c.add_customer(customers, "Jane Smith", "456 Oak Ave");
-			c.add_customer(customers, "Miles Morales", "Earth 317");
+			//string user_customer_name, user_customer_address declaration outside of switch-case 
+			cout << "YOU ARE NOW ADDING TO THE DATABASE FOR CUSTOMERS..." << endl << endl;
+			cout << "Enter Customer Name: ";
+			cin.ignore();
+			getline(cin, user_customer_name);
+			cout << "Enter Customer Address: ";
+			getline(cin, user_customer_address);
+
+			c.add_customer(customers, user_customer_name, user_customer_address);
+
 			break;
 		case 8:
 			cout << "Enter Customer ID: ";
