@@ -24,7 +24,7 @@ public:
 };
 
 
-class Customer {
+class Customer : public Customer{
 private:
     int customer_id;
     string customer_name;
