@@ -99,20 +99,24 @@ int main() {
 			header();
 			break;
 		case 2:
-
 			do {
 				system("cls");
 				header();
 				cout << "YOU ARE NOW RENTING A VIDEO..." << endl << endl;
 
+				bool customer_found = false;
 				do {
 					cout << "Enter Customer ID: ";
 					cin >> user_customer_id;
 
-					// Prompt to display customer details
-					cout << "Is this you? \n" << endl;
-					c.display_customer_details(user_customer_id);
-					cout << "\nConfirm? [Y/N]: ";
+					// Check if the customer details were displayed
+					customer_found = c.display_customer_details(user_customer_id);
+
+					if (!customer_found) {
+						continue;
+					}
+
+					cout << "Is this you? [Y/N]: ";
 					cin >> another;
 
 					if (toupper(another) == 'Y') {
@@ -131,7 +135,7 @@ int main() {
 				v.display_all_movies();
 
 				cout << "\nEnter Video ID to rent: ";
-				cin.ignore();
+				cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
 				getline(cin, user_video_id);
 				transform(user_video_id.begin(), user_video_id.end(), user_video_id.begin(), ::toupper);
 
@@ -140,14 +144,15 @@ int main() {
 				cin >> another;
 				if (cin.fail()) {
 					cin.clear();
-					cin.ignore();
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
 					cout << "Invalid choice" << endl;
 					continue;
 				}
-				else cin.ignore();
+				else {
+					cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear the input buffer
+				}
 
 			} while (toupper(another) != 'N');
-
 			break;
 		case 3:
 			cr.return_video(rent, 1);

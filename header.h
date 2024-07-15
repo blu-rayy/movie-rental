@@ -32,7 +32,7 @@ public:
     Customer();
     Customer(const string& name, const string& address);
     void add_customer(queue<Customer>& customerQueue, Customer& newCustomer);
-    void display_customer_details(int customer_id);
+    bool display_customer_details(int customer_id);
 };
 
 class Customer_Rent : public Customer {

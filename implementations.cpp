@@ -187,12 +187,11 @@ void Customer::add_customer(queue<Customer>& customerQueue, Customer& newCustome
     cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
 }
 
-void Customer::display_customer_details(int customer_id)
-{
+bool Customer::display_customer_details(int customer_id) {
     ifstream inFile("customers.txt");
     if (!inFile) {
         cout << "Error opening file: customers.txt" << endl;
-        return;
+        return false;
     }
 
     string line;
@@ -205,7 +204,6 @@ void Customer::display_customer_details(int customer_id)
         getline(ss, address, ',');
 
         if (stoi(id) == customer_id) {
-
             TextTable customer('-', '|', '+');
 
             customer.add("Customer ID");
@@ -227,7 +225,13 @@ void Customer::display_customer_details(int customer_id)
         }
     }
 
-}
+    if (!found) {
+        cout << "Customer ID not found. Please enter a valid Customer ID.\n" << endl;
+    }
+
+    inFile.close();
+    return found;
+} 
 
 void Video::display_all_movies() {
     ifstream inFile("movies.txt");
