@@ -164,28 +164,39 @@ Customer::Customer(const string& name, const string& address) //also a parameter
 
 void Customer::add_customer(queue<Customer>& customerQueue, Customer& newCustomer)
 {
-    newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
+    // Read the number of existing lines in the file to determine the new customer ID
+    ifstream countCustomers("customers.txt");
+    if (!countCustomers) {
+        cout << "Error opening file: customers.txt" << endl;
+        return;
+    }
+
+    int numLines = 0;
+    string line;
+    while (getline(countCustomers, line)) {
+        numLines++;
+    }
+    countCustomers.close();
+
+    newCustomer.customer_id = numLines + 1; // Assign a unique ID to the new customer
     customerQueue.push(newCustomer);
 
-    ofstream outCustomer("customers.txt");
+    // Open the file in append mode and write only the new customer
+    ofstream outCustomer("customers.txt", ios::app);
     if (!outCustomer) {
         cout << "Error opening file: customers.txt" << endl;
         return;
     }
 
-    queue<Customer> tempQueue = customerQueue; // Write all customers from the queue to the file
-    while (!tempQueue.empty()) {
-        Customer customer = tempQueue.front();
-        outCustomer << customer.customer_id << ", "
-            << customer.customer_name << ", "
-            << customer.customer_address << endl;
-        tempQueue.pop();
-    }
+    outCustomer << newCustomer.customer_id << ", "
+        << newCustomer.customer_name << ", "
+        << newCustomer.customer_address << endl;
 
     outCustomer.close();
 
     cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
 }
+
 
 void Customer::display_customer_details(int customer_id)
 {
@@ -226,7 +237,7 @@ void Customer::display_customer_details(int customer_id)
             break;
         }
     }
-
+    if(!found) cout << "Customer ID not found within database." << endl;    
 }
 
 void Video::display_all_movies() {

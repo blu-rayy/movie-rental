@@ -1,3 +1,6 @@
-1, Erichi, Manila
-2, Kristian, 8 North House
-3, Miles, Earth 717
+1, Kristian, Binangonan
+2, Marianne, Cainta
+3, Patricia, Zambales
+4, Wayne, Pasig
+5, Angel, Manila
+6, Miles Morales, Earth 717
