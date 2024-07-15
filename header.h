@@ -25,7 +25,7 @@ public:
 >>>>>>> master
     void details_video(int video_id);
     void display_all_movies();
-    bool check_video_status(int video_id);
+    void check_video_status(string video_id);
 };
 
 <<<<<<< HEAD
