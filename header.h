@@ -24,7 +24,7 @@ public:
 };
 
 
-class Customer : public Customer{
+class Customer{
 private:
     int customer_id;
     string customer_name;
@@ -36,14 +36,14 @@ public:
     void display_customer_details(int customer_id);
 };
 
-class Customer_Rent {
+class Customer_Rent : public Customer {
 private:
     int customer_id;
 public:
     Customer_Rent();
     void rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id);
     void decrementMovieQuantity(const string& movie_id);
-    void return_video();
+    void return_video(stack<string>& customer_rent_stack, int customer_id, string movie_id);
     void display_rent(stack<string>& customer_rent_stack);
     string generate_time();
     bool first_instance;

@@ -370,16 +370,16 @@ void Customer_Rent::return_video(stack<string>& customer_rent_stack, int custome
 		return;
 	}
 
-	string customerID_result, customer_info;
-	while (getline(getCustomer_ID, customer_info)) {
-		if (customer_info.find(to_string(customer_id) + ",") == 0) {
-			customerID_result = customer_info;
+	string customerID_getresult, customer_get_info;
+	while (getline(getCustomer_ID, customer_get_info)) {
+		if (customer_get_info.find(to_string(customer_id) + ",") == 0) {
+			customerID_getresult = customer_get_info;
 			break;
 		}
 	}                                                  
 	getCustomer_ID.close();
 
-	if (customerID_result.empty()) {
+	if (customerID_getresult.empty()) {
 		cout << "Customer ID not found" << endl;
 		first_instance = true;
 		return;
@@ -534,13 +534,16 @@ void Customer_Rent::display_rent(stack<string>& customer_rent_stack) {
 
 string Customer_Rent::generate_time()
 {
-	auto now = chrono::system_clock::now();
-	time_t now_time_t = chrono::system_clock::to_time_t(now); // Convert to time_t (epoch time)
-	tm local_tm; // Convert to local time using localtime_s
-	localtime_r(&now_time_t, &local_tm);
-	char time[80];
-	strftime(time, sizeof(time), "%Y-%m-%d %H:%M:%S", &local_tm); // Format time as a string
+    auto now = chrono::system_clock::now();
+    time_t now_time_t = chrono::system_clock::to_time_t(now);
+    tm local_tm;
 
-	return string(time);
+    localtime_s(&local_tm, &now_time_t); // For Windows
+    // localtime_r(&now_time_t, &local_tm); // For Mac
+
+    char time_buffer[80];
+    strftime(time_buffer, sizeof(time_buffer), "%Y-%m-%d %H:%M:%S", &local_tm);
+
+    return std::string(time_buffer);
 }
 
