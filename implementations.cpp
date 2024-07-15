@@ -112,7 +112,7 @@ Customer::Customer(const string& name, const string& address) //also a parameter
 
 void Customer::add_customer(queue<Customer>& customerQueue, const string& name, const string& address)
 {
-	//header();
+	header();
 
 	Customer newCustomer(name, address); 	// Create a new customer with the provided name and address
 	newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
@@ -150,14 +150,16 @@ void Customer::display_customer_details(int customer_id)
 	string line;
 	while (getline(inFile, line)) {
 		stringstream ss(line);
-		string id_str, name;
+		string id_str, name, address;
 		getline(ss, id_str, ',');
 		getline(ss, name, ',');
+        getline(ss, address, ',');
 
 		int id = stoi(id_str);
 		if (id == customer_id) {
 			cout << "Customer ID: " << id << endl;
 			cout << "Name: " << name << endl;
+            cout << "Address: " << address << endl;
 			break;
 		}
 	}
