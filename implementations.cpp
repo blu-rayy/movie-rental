@@ -164,46 +164,34 @@ Customer::Customer(const string& name, const string& address) //also a parameter
 
 void Customer::add_customer(queue<Customer>& customerQueue, Customer& newCustomer)
 {
-    // Read the number of existing lines in the file to determine the new customer ID
-    ifstream countCustomers("customers.txt");
-    if (!countCustomers) {
-        cout << "Error opening file: customers.txt" << endl;
-        return;
-    }
-
-    int numLines = 0;
-    string line;
-    while (getline(countCustomers, line)) {
-        numLines++;
-    }
-    countCustomers.close();
-
-    newCustomer.customer_id = numLines + 1; // Assign a unique ID to the new customer
+    newCustomer.customer_id = customerQueue.size() + 1; // Assign a unique ID to the customer
     customerQueue.push(newCustomer);
 
-    // Open the file in append mode and write only the new customer
-    ofstream outCustomer("customers.txt", ios::app);
+    ofstream outCustomer("customers.txt");
     if (!outCustomer) {
         cout << "Error opening file: customers.txt" << endl;
         return;
     }
 
-    outCustomer << newCustomer.customer_id << ", "
-        << newCustomer.customer_name << ", "
-        << newCustomer.customer_address << endl;
+    queue<Customer> tempQueue = customerQueue; // Write all customers from the queue to the file
+    while (!tempQueue.empty()) {
+        Customer customer = tempQueue.front();
+        outCustomer << customer.customer_id << ", "
+            << customer.customer_name << ", "
+            << customer.customer_address << endl;
+        tempQueue.pop();
+    }
 
     outCustomer.close();
 
     cout << "\nCustomer " << newCustomer.customer_name << " with ID " << newCustomer.customer_id << " has been added to the database" << endl;
 }
 
-
-void Customer::display_customer_details(int customer_id)
-{
+bool Customer::display_customer_details(int customer_id) {
     ifstream inFile("customers.txt");
     if (!inFile) {
         cout << "Error opening file: customers.txt" << endl;
-        return;
+        return false;
     }
 
     string line;
@@ -216,7 +204,6 @@ void Customer::display_customer_details(int customer_id)
         getline(ss, address, ',');
 
         if (stoi(id) == customer_id) {
-
             TextTable customer('-', '|', '+');
 
             customer.add("Customer ID");
@@ -237,8 +224,14 @@ void Customer::display_customer_details(int customer_id)
             break;
         }
     }
-    if(!found) cout << "Customer ID not found within database." << endl;    
-}
+
+    if (!found) {
+        cout << "Customer ID not found. Please enter a valid Customer ID.\n" << endl;
+    }
+
+    inFile.close();
+    return found;
+} 
 
 void Video::display_all_movies() {
     ifstream inFile("movies.txt");
