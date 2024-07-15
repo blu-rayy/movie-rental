@@ -100,16 +100,6 @@ void Video::insert_video(list<Video>& movies, const Video& video) //takes in a l
 	system("pause");
 }
 
-void Video::rent_video(int video_id)
-{
-    cout << "Implementations Test: Video Class";
-}
-
-void Video::return_video(int video_id)
-{
-    cout << "Implementations Test: Video Class";
-}
-
 void Video::details_video(int video_id)
 {
     cout << "Implementations Test: Video Class";
