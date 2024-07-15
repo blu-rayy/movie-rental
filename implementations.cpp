@@ -28,6 +28,26 @@ void goodbye() {
 	cout << "Kristian Bautista" << endl << "Patricia Damaso" << endl << "Wayne Garcia" << endl << "Angel Letada" << endl << "Marianne Santos" << endl;
 }
 
+void sort(vector<string>& vec) {
+    int n = vec.size();
+    bool swapped;
+
+    do {
+        swapped = false;
+        for (int i = 1; i < n; ++i) {
+            if (vec[i - 1] > vec[i]) {
+                // Swap elements
+                string temp = vec[i - 1];
+                vec[i - 1] = vec[i];
+                vec[i] = temp;
+                swapped = true;
+            }
+        }
+        // Decrease the size of the unsorted portion
+        --n;
+    } while (swapped);
+}
+
 Video::Video()
 {
 	video_id = "";
@@ -367,7 +387,58 @@ void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
 	cout << "Quantity updated successfully." << endl;
 }
 
-void Customer_Rent::return_video(stack<string>& customer_rent_stack, int customer_id, string movie_id)
+void Customer_Rent::incrementMovieQuantity(const string& movie_id) {
+    ifstream inFile("movies.txt");
+    if (inFile.fail()) {
+        cout << "Error opening file: movies.txt" << endl;
+        return;
+    }
+
+    ofstream outFile("temp.txt");
+    if (outFile.fail()) {
+        cout << "Error opening file: temp.txt" << endl;
+        return;
+    }
+
+    string movie_info, updated_movie_info;
+    bool movieFound = false;
+
+    while (getline(inFile, movie_info)) {
+        if (movie_info.find(movie_id) != string::npos) {
+            string quantity = movie_info.substr(movie_info.find_last_of(",") + 2);
+            int quantity_int = stoi(quantity);
+            quantity_int++;
+            updated_movie_info = movie_info.substr(0, movie_info.find_last_of(",") + 2) + to_string(quantity_int);
+            outFile << updated_movie_info << endl;
+            movieFound = true;
+        }
+        else {
+            outFile << movie_info << endl;
+        }
+    }
+
+    inFile.close();
+    outFile.close();
+
+    if (!movieFound) {
+        cout << "Video ID not found" << endl;
+        remove("temp.txt");
+        return;
+    }
+
+    if (remove("movies.txt") != 0) {
+        cout << "Error deleting original file" << endl;
+        return;
+    }
+
+    if (rename("temp.txt", "movies.txt") != 0) {
+        cout << "Error renaming temporary file" << endl;
+        return;
+    }
+
+}
+
+void Customer_Rent::return_video(stack<string>& customer_rent_stack, int customer_id)
 {
 	// Open customers.txt to find the requested customer_id
 	ifstream getCustomer_ID("customers.txt");
@@ -398,6 +469,8 @@ void Customer_Rent::return_video(stack<string>& customer_rent_stack, int custome
 		return;
 	}
 
+    vector<string> temp;
+    vector<string> records;
 	string customerID_result, customer_info;
 	while (getline(inCustomerRent, customer_info)) {
 		int customerID_index = customer_info.find('&');
@@ -407,9 +480,36 @@ void Customer_Rent::return_video(stack<string>& customer_rent_stack, int custome
 		if (customer_id == stoi(customer_result))
 		{
 			string videoID = customer_info.substr(0, 2);
-			cout << "Video ID: " << videoID << endl;
+            incrementMovieQuantity(videoID);
+			records.push_back(videoID);
+		}
+        else
+		{
+			temp.push_back(customer_info);
 		}
 	}
+
+    inCustomerRent.close();
+
+    ofstream outCustomerRent("customer_rent.txt");
+    if (!outCustomerRent) {
+        cout << "Error opening file: customer_rent.txt for writing" << endl;
+        return;
+    }
+
+    for (const string& record : temp) {
+        outCustomerRent << record << endl;
+    }
+    outCustomerRent.close();
+
+    cout << "Videos rented by customer ID " << customer_id << ":" << endl;
+    sort(records); // Sorting records after storing
+
+    for (const string& word : records) {
+        cout << "Video ID: " << word << endl;
+    }
+
+    cout << "Videos returned successfully." << endl;
 
 }
 
