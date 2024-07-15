@@ -19,7 +19,7 @@ public:
     void insert_video(list<Video>& movies, const Video& video);//nilabas ko from the class
     void details_video(int video_id);
     void display_all_movies();
-    bool check_video_status(int video_id);
+    void check_video_status(string video_id);
 };
 
 

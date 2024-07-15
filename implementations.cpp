@@ -105,8 +105,50 @@ void Video::details_video(int video_id)
     cout << "Implementations Test: Video Class";
 }
 
-bool Video::check_video_status(int video_id) {
-    	return true;
+void Video::check_video_status(string video_id) {
+    ifstream file("movies.txt");
+    if (!file) {
+        cout << "Error opening file: movies.txt" << endl;
+        return;
+    }
+
+    string line;
+    bool found = false;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        string id, title, genre, production;
+        int quantity;
+
+        getline(ss, id, ',');
+        getline(ss, title, ',');
+        getline(ss, genre, ',');
+        getline(ss, production, ',');
+        ss >> quantity;
+
+        // Remove leading spaces from extracted fields
+        id.erase(0, id.find_first_not_of(" "));
+        title.erase(0, title.find_first_not_of(" "));
+        genre.erase(0, genre.find_first_not_of(" "));
+        production.erase(0, production.find_first_not_of(" "));
+
+        if (id == video_id) {
+            cout << "\nVideo ID: " << id << endl;
+            cout << "Movie Title: " << title << endl;
+            cout << "Genre: " << genre << endl;
+            cout << "Production: " << production << endl;
+            cout << "No. of copies: " << quantity << endl;
+            cout << "Status: " << (quantity > 0 ? "AVAILABLE" : "NOT AVAILABLE") << endl;
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Video ID not found." << endl;
+    }
+
+    file.close();
 }
 
 
