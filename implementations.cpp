@@ -333,6 +333,12 @@ Customer_Rent::Customer_Rent()
 void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id) {
     string current_time = generate_time();
 
+    if (decrementMovieQuantity(movie_id) == false) {
+        cout << "Movie is not available for rent" << endl;
+        return;
+    }
+
+
     // Open movies.txt to find the requested movie_id
     ifstream getVideo_ID("movies.txt");
     if (getVideo_ID.fail()) {
@@ -417,32 +423,39 @@ void Customer_Rent::rent_video(stack<string>& customer_rent_stack, int customer_
     }
     outCustomerRent.close();
 
-    decrementMovieQuantity(movie_id);
-
     cout << rental_record << " has been added to the database" << endl;
 }
 
-void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
+bool Customer_Rent::decrementMovieQuantity(const string& movie_id) {
     ifstream inFile("movies.txt");
     if (inFile.fail()) {
         cout << "Error opening file: movies.txt" << endl;
-        return;
+        return false;
     }
 
     ofstream outFile("temp.txt");
     if (outFile.fail()) {
         cout << "Error opening file: temp.txt" << endl;
-        return;
+        return false;
     }
 
     string movie_info, updated_movie_info;
     bool movieFound = false;
+    bool available = true;
 
     while (getline(inFile, movie_info)) {
         if (movie_info.find(movie_id) != string::npos) {
             string quantity = movie_info.substr(movie_info.find_last_of(",") + 2);
             int quantity_int = stoi(quantity);
-            quantity_int--;
+            if (quantity_int == 0 || quantity_int < 0) {
+				cout << "No more copies available" << endl;
+				outFile << movie_info << endl;
+				movieFound = true;
+                available = false;
+			}
+            else {
+                quantity_int--;
+            }
             updated_movie_info = movie_info.substr(0, movie_info.find_last_of(",") + 2) + to_string(quantity_int);
             outFile << updated_movie_info << endl;
             movieFound = true;
@@ -455,23 +468,26 @@ void Customer_Rent::decrementMovieQuantity(const string& movie_id) {
     inFile.close();
     outFile.close();
 
+    return available;
+
     if (!movieFound) {
         cout << "Video ID not found" << endl;
         remove("temp.txt");
-        return;
+        return false;
     }
 
     if (remove("movies.txt") != 0) {
         cout << "Error deleting original file" << endl;
-        return;
+        return false;
     }
 
     if (rename("temp.txt", "movies.txt") != 0) {
         cout << "Error renaming temporary file" << endl;
-        return;
+        return false;
     }
 
     cout << "Quantity updated successfully." << endl;
+
 }
 
 void Customer_Rent::incrementMovieQuantity(const string& movie_id) {

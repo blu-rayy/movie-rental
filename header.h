@@ -39,7 +39,7 @@ class Customer_Rent : public Customer {
 public:
     Customer_Rent();
     void rent_video(stack<string>& customer_rent_stack, int customer_id, string movie_id);
-    void decrementMovieQuantity(const string& movie_id);
+    bool decrementMovieQuantity(const string& movie_id);
     void incrementMovieQuantity(const string& movie_id);
     void return_video(stack<string>& customer_rent_stack, int customer_id);
     void display_rent(stack<string>& customer_rent_stack, int customer_id);
