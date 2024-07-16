@@ -155,10 +155,50 @@ int main() {
 			} while (toupper(another) != 'N');
 			break;
 		case 3:
-			cr.return_video(rent, 1);
+			do {
+				system("cls");
+				header();
+				cout << "YOU ARE NOW RETURNING A VIDEO..." << endl << endl;
+
+				bool customer_found = false;
+				do {
+					cout << "Enter Customer ID: ";
+					cin >> user_customer_id;
+
+					// Check if the customer details were displayed
+					customer_found = c.display_customer_details(user_customer_id);
+
+					if (!customer_found) {
+						continue;
+					}
+
+					cout << "Is this you? [Y/N]: ";
+					cin >> another;
+
+					if (toupper(another) == 'Y') {
+						break; // Proceed to rent a video
+					}
+					else {
+						cout << "Please enter your Customer ID again.\n" << endl;
+					}
+				} while (true);
+
+				system("cls");
+				header();
+				cout << "YOU ARE NOW RETURNING A VIDEO..." << endl << endl;
+				
+				cr.return_video(rent, user_customer_id);
+
+				system("pause");
+				break;
+
+			} while (toupper(another) != 'N');
 			break;
 		case 4:
-			v.details_video(1);
+			// Horizontal dapat and pa table
+			cout << "Enter movie: ";
+			cin >> user_video_id;
+			v.details_video(user_video_id);
 			break;
 		case 5:
 			v.display_all_movies();
