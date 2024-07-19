@@ -129,12 +129,34 @@ void Video::details_video(string video_id)
         production.erase(0, production.find_first_not_of(" "));
 
         if (id == video_id) {
-            cout << "\nVideo ID: " << id << endl;
-            cout << "Movie Title: " << title << endl;
-            cout << "Genre: " << genre << endl;
-            cout << "Production: " << production << endl;
-            cout << "No. of copies: " << quantity << endl;
-            cout << "Status: " << (quantity > 0 ? "AVAILABLE" : "NOT AVAILABLE") << endl;
+
+            TextTable videoDetails('-', '|', '+');
+            videoDetails.add("Video ID");
+            videoDetails.add(id);
+            videoDetails.endOfRow();
+
+            videoDetails.add("Movie Title");
+            videoDetails.add(title);
+            videoDetails.endOfRow();
+
+            videoDetails.add("Genre");
+            videoDetails.add(genre);
+            videoDetails.endOfRow();
+
+            videoDetails.add("Production");
+            videoDetails.add(production);
+            videoDetails.endOfRow();
+
+            videoDetails.add("No. of copies");
+            videoDetails.add(to_string(quantity));
+            videoDetails.endOfRow();
+
+            videoDetails.add("Status");
+            videoDetails.add(quantity > 0 ? "AVAILABLE" : "NOT AVAILABLE");
+            videoDetails.endOfRow();
+
+            cout << videoDetails << endl;
+
             found = true;
             break;
         }
