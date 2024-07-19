@@ -1,6 +1,1 @@
-1, Kristian, Binangonan
-2, Marianne, Cainta
-3, Patricia, Zambales
-4, Wayne, Pasig
-5, Angel, Manila
-6, Miles Morales, Earth 717
+1, Andrei, Pasig
