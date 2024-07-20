@@ -169,12 +169,7 @@ inline std::ostream &operator<<(std::ostream &stream, const TextTable& table) {
       auto alignment = table.alignment(i) == TextTable::Alignment::LEFT
                            ? std::left
                            : std::right;
-      // std::setw( width ) works as follows: a string which goes in the stream
-      // with byte length (!) l is filled with n spaces so that l+n=width. For a
-      // utf8 encoded string the glyph length g might be smaller than l. We need
-      // n spaces so that g+n=width which is equivalent to g+n+l-l=width ==> l+n
-      // = width+l-g l-g (that means glyph length minus byte length) has to be
-      // added to the width argument. l-g is computed by correctDistance.
+
       stream << std::setw(table.width(i) + table.correctDistance(row[i]))
              << alignment << row[i];
       stream << table.vertical();
